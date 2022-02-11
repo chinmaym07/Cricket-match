@@ -8,10 +8,10 @@ I have created 3 necessary class
 - MatchController
 
 I have created a class `MatchTest` in `com.cricketgame.test` package to test all the 3 models.
-![Cricket Game Class Diagram](../../Downloads/CricketGame/Cricket%20Game%20Class%20Diagram.jpeg)
+![Cricket Game Class Diagram](Cricket%20Game%20Class%20Diagram.jpeg)
 
 ### Sample Output
 
 I have hardcoded the team names for now.
 
-![Sample Run](../../Downloads/CricketGame/Samplerun.png)    
+![Sample Run](Samplerun.png)    
