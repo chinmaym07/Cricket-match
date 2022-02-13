@@ -2,12 +2,14 @@
 
 ### Class Diagram
 
-I have created 3 necessary class
+I have created 4 necessary classes
 - Player
 - Team
+- Match
 - MatchController
 
 I have created a class `MatchTest` in `com.cricketgame.test` package to test all the 3 models.
+
 ![Cricket Game Class Diagram](Cricket%20Game%20Class%20Diagram.jpeg)
 
 ### Sample Output

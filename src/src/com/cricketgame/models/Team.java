@@ -57,11 +57,11 @@ public class Team {
         else if(ch == 122)
             ch = 65;
 
-        for(int i = 0;i < 11;i++) {
+        for(int currentPlayerInd = 0;currentPlayerInd < 11;currentPlayerInd++) {
             String n = "" + ((char) ch);
             ch++;
             Player p;
-            if(i < 6)
+            if(currentPlayerInd < 6)
                 p = new Player(n,"Batsman");
             else
                 p = new Player(n,"Bowler");
