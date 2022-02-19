@@ -1,18 +1,26 @@
 package src.com.cricketgame.test;
 
+import src.com.cricketgame.models.Toss;
 import src.com.cricketgame.services.MatchController;
+
+import java.util.Scanner;
 
 public class MatchTest {
     public static void main(String[] args) {
 
-        String nameA = "Lucknow Super Giants"; // TeamA name
-        String nameB = "Mumbai Indians"; // TeamB Name
-        int matchOvers = 50; // setting match overs
+        Scanner sc = new Scanner(System.in);
+        String nameA, nameB;
+        System.out.println("Enter TeamA Name: ");
+        nameA = sc.nextLine(); // TeamA name
+        System.out.println("Enter TeamB Name: ");
+        nameB = sc.nextLine(); // TeamB Name
+        System.out.println("Enter Match overs: ");
+        int matchOvers = sc.nextInt(); // setting match overs
 
-        MatchController match = new MatchController(); // creating instance of Match Controller clss
+        MatchController matchController = new MatchController(); // creating instance of Match Controller clss
 
-        match.createTwoTeams(nameA, nameB, matchOvers); // Creating two teams
+        matchController.createTwoTeams(nameA, nameB, matchOvers); // Creating two teams
 
-        match.playMatch(); // Start Playing the match
+        matchController.playMatch(); // Start Playing the match
     }
 }

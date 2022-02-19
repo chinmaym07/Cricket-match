@@ -1,11 +1,48 @@
 package src.com.cricketgame.models;
 
 public class Match {
+    private static int matchCount = 1;
+    private int matchId = 0;
     private Team teamA = new Team();
     private Team teamB = new Team();
     private int matchOvers;
     private Player teamABestPlayer, teamBBestPlayer;
     private Enum matchWinner;
+    private Innings firstInnings, secondInnings;
+    private String teamNameWhoWonToss;
+
+
+    public void setTeamNameWhoWonToss(String teamNameWhoWonToss) {
+        this.teamNameWhoWonToss = teamNameWhoWonToss;
+    }
+
+    public String getTeamNameWhoWonToss() {
+        return teamNameWhoWonToss;
+    }
+
+    public Match() {
+        matchId = matchCount++;
+    }
+
+    public int getMatchId() {
+        return matchId;
+    }
+
+    public void setFirstInnings(Innings firstInnings) {
+        this.firstInnings = firstInnings;
+    }
+
+    public void setSecondInnings(Innings secondInnings) {
+        this.secondInnings = secondInnings;
+    }
+
+    public Innings getFirstInnings() {
+        return firstInnings;
+    }
+
+    public Innings getSecondInnings() {
+        return secondInnings;
+    }
 
     public Enum getMatchWinner() {
         return matchWinner;

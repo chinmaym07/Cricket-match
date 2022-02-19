@@ -2,18 +2,28 @@
 
 ### Class Diagram
 
-I have created 4 necessary classes
+I have created 7 necessary classes
 - Player
 - Team
 - Match
 - MatchController
+- Innings
+- Toss
+- WicketHistory
 
-I have created a class `MatchTest` in `com.cricketgame.test` package to test all the 3 models.
+I have created a class `MatchTest` in `com.cricketgame.test` package for testing.
 
-![Cricket Game Class Diagram](Cricket%20Game%20Class%20Diagram.jpeg)
+![Cricket Game Class Diagram](images/Cricket%20Game%20Class%20Diagram-week-2.jpeg)
 
 ### Sample Output
 
-I have hardcoded the team names for now.
+I have taken input from user like Team names, Match Overs, Toss Choice.
 
-![Sample Run](Samplerun.png)    
+![Sample Run Week2 _part-1](images/Sample%20Run-week-2-1.png)
+
+![Sample Run Week2 _part-2](images/Sample%20Run-week-2-2.png)
+
+## Pending 
+
+1. Show Ball Summary -> 2d array list
+2. Try catch pending on inputs
