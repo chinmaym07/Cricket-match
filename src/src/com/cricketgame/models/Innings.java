@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Innings {
     private int battingTeamId, bowlingTeamId, matchId;
     private ArrayList<ArrayList<String>> ballSummary = new ArrayList<ArrayList<String>>();
-    private int totalScore = 0, fallOfWickets = 0, extraRuns = 0,noOfWideBalls = 0, noOfNoBalls = 0;
+    private int totalScore = 0, fallOfWickets = 0, extraRuns = 0, noOfWideBalls = 0, noOfNoBalls = 0;
     private double oversBatted = 0.0;
     private ArrayList<WicketsHistory> wicketsFallenHistory = new ArrayList<WicketsHistory>();
 
@@ -25,12 +25,29 @@ public class Innings {
         this.noOfWideBalls = noOfWideBalls;
     }
 
+    public int getTotalScore() {
+        return totalScore;
+    }
+
+    public void setTotalScore(int score) {
+        this.totalScore = score;
+    }
+
     public int getExtraRuns() {
         return extraRuns;
     }
 
     public void setExtraRuns(int extraRuns) {
         this.extraRuns = extraRuns;
+    }
+
+
+    public int getFallOfWickets() {
+        return fallOfWickets;
+    }
+
+    public void setFallOfWickets(int fallOfWickets) {
+        this.fallOfWickets = fallOfWickets;
     }
 
     public ArrayList<WicketsHistory> getWicketsFallenHistory() {
@@ -80,22 +97,4 @@ public class Innings {
     public void setOversBatted(double oversBatted) {
         this.oversBatted = oversBatted;
     }
-
-
-    public int getTotalScore() {
-        return totalScore;
-    }
-
-    public void setTotalScore(int score) {
-        this.totalScore = score;
-    }
-
-    public int getFallOfWickets() {
-        return fallOfWickets;
-    }
-
-    public void setFallOfWickets(int fallOfWickets) {
-        this.fallOfWickets = fallOfWickets;
-    }
-
 }
