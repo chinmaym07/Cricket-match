@@ -10,6 +10,7 @@ I have created 7 necessary classes
 - Innings
 - Toss
 - WicketHistory
+- Scoreboard
 
 I have created a class `MatchTest` in `com.cricketgame.test` package for testing.
 
@@ -22,8 +23,3 @@ I have taken input from user like Team names, Match Overs, Toss Choice.
 ![Sample Run Week2 _part-1](images/Sample%20Run-week-2-updated-1.png)
 
 ![Sample Run Week2 _part-2](images/Sample%20Run-week-2-updated-2.png)
-
-## Pending 
-
-1. Show Ball Summary -> 2d array list
-2. Try catch pending on inputs

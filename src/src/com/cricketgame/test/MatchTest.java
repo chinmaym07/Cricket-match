@@ -9,13 +9,37 @@ public class MatchTest {
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
-        String nameA, nameB;
+        String nameA="", nameB="";
+        int matchOvers=0;
         System.out.println("Enter TeamA Name: ");
-        nameA = sc.nextLine(); // TeamA name
+
+        try {
+            nameA = sc.nextLine(); // TeamA name
+            if(nameA.length() <= 0)
+                throw new Exception("Please Enter a valid Team Name !!");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.exit(1);
+        }
         System.out.println("Enter TeamB Name: ");
-        nameB = sc.nextLine(); // TeamB Name
+        try {
+            nameB = sc.nextLine(); // TeamB Name
+            if(nameB.length() <= 0) {
+                throw new Exception("Please Enter a valid Team Name !!");
+            }
+        }  catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.exit(1);
+        }
         System.out.println("Enter Match overs: ");
-        int matchOvers = sc.nextInt(); // setting match overs
+        try {
+            matchOvers = sc.nextInt(); // setting match overs
+            if(matchOvers <= 0)
+                throw new Exception("Match Overs cannot be less than 0");
+        }  catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.exit(1);
+        }
 
         MatchController matchController = new MatchController(); // creating instance of Match Controller clss
 
