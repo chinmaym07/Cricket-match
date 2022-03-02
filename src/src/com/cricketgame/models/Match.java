@@ -1,5 +1,9 @@
 package src.com.cricketgame.models;
 
+import src.com.cricketgame.repo.DB;
+
+import java.sql.SQLException;
+
 public class Match {
     private static int matchCount = 1;
     private int matchId = 0;
@@ -12,40 +16,40 @@ public class Match {
     private Innings firstInnings, secondInnings;
     private String teamNameWhoWonToss;
 
-    public Toss getToss() {
-        return toss;
+    public Match() throws SQLException {
+        matchId = DB.getMatchIdCount()+1;
     }
 
-    public void setTeamNameWhoWonToss(String teamNameWhoWonToss) {
-        this.teamNameWhoWonToss = teamNameWhoWonToss;
+    public Toss getToss() {
+        return toss;
     }
 
     public String getTeamNameWhoWonToss() {
         return teamNameWhoWonToss;
     }
 
-    public Match() {
-        matchId = matchCount++;
+    public void setTeamNameWhoWonToss(String teamNameWhoWonToss) {
+        this.teamNameWhoWonToss = teamNameWhoWonToss;
     }
 
     public int getMatchId() {
         return matchId;
     }
 
-    public void setFirstInnings(Innings firstInnings) {
-        this.firstInnings = firstInnings;
-    }
-
-    public void setSecondInnings(Innings secondInnings) {
-        this.secondInnings = secondInnings;
-    }
-
     public Innings getFirstInnings() {
         return firstInnings;
     }
 
+    public void setFirstInnings(Innings firstInnings) {
+        this.firstInnings = firstInnings;
+    }
+
     public Innings getSecondInnings() {
         return secondInnings;
+    }
+
+    public void setSecondInnings(Innings secondInnings) {
+        this.secondInnings = secondInnings;
     }
 
     public Enum getMatchWinner() {
@@ -68,6 +72,10 @@ public class Match {
         return matchOvers;
     }
 
+    public void setMatchOvers(int matchOvers) {
+        this.matchOvers = matchOvers;
+    }
+
     public Player getTeamABestPlayer() {
         return teamABestPlayer;
     }
@@ -84,19 +92,17 @@ public class Match {
         this.teamBBestPlayer = teamBBestPlayer;
     }
 
-    public void setMatchOvers(int matchOvers) {
-        this.matchOvers = matchOvers;
-    }
-
-    public void startToss() {
+    public void startToss() throws SQLException {
         toss = new Toss();
-        toss.tossSetup();
-        if (toss.getTossWinner() == 0) setTeamNameWhoWonToss(teamA.getTeamName());
+        toss.tossSetup(teamA,teamB);
+        if (toss.getTossWinner() == teamA.getTeamId()) setTeamNameWhoWonToss(teamA.getTeamName());
         else setTeamNameWhoWonToss(teamB.getTeamName());
 
         Innings firstInnings = new Innings();
+        firstInnings.setInningsId(DB.getInningsIdCount()+1);
         Innings secondInnings = new Innings();
-        if (toss.getWhoWillBat() == 0) {
+        secondInnings.setInningsId(DB.getInningsIdCount()+2);
+        if (toss.getWhoWillBat() ==  teamA.getTeamId()) {
             firstInnings.setBattingTeamId(teamA.getTeamId());
             firstInnings.setBowlingTeamId(teamB.getTeamId());
             secondInnings.setBattingTeamId(teamB.getTeamId());

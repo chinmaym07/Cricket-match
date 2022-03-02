@@ -1,43 +1,42 @@
 package src.com.cricketgame.services;
 
+import src.com.cricketgame.enums.MatchWinnerEnums;
 import src.com.cricketgame.models.*;
+import src.com.cricketgame.repo.DB;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MatchController {
+public class MatchController extends MatchWinnerEnums {
     private Match match;
 
-    private enum MatchWinner {
-        TEAMA, TEAMB
-    }
-
-    public void createTwoTeams(String nameA, String nameB, int matchOvers) {
+    public void createTwoTeams(String nameA, String nameB, int matchOvers) throws SQLException, ClassNotFoundException {
+        DB.createConnection();
         match = new Match();
-
         Team teamA; // get Team A
         Team teamB; // get Team B
         teamB = match.getTeamB(); // get Team B
         teamA = match.getTeamA(); // get Team A
-
-        match.setMatchOvers(matchOvers); // setting match overs
-        teamA.createTeam(); // creating 11 Player for Team A
-        teamB.createTeam(); // creating 11 Player for Team B
         teamA.setTeamName(nameA); // setting the TeamA's Name
         teamB.setTeamName(nameB); // setting the TeamB's Name
+
+        match.setMatchOvers(matchOvers); // setting match overs
+
+        DB.createTeam(teamA,nameA); // fetching Team Players from DB & adding them to the Team A
+        DB.createTeam(teamB,nameB); // fetching Team Players from DB & adding them to the Team B
+
+        // PlayerInfo.displayPlayerInfo(teamA.getPlayersArr());
+        // PlayerInfo.displayPlayerInfo(teamB.getPlayersArr());
         /* teamA.setFallOfWickets(0); // setting the current TeamA's fall of wickets to 0
         teamB.setFallOfWickets(0); // setting the current TeamA's fall of wickets to 0
         teamA.setScore(0); // setting the current TeamA's score to 0
         teamB.setScore(0); // setting the current TeamB's score to 0 */
         // Starting the Toss
         match.startToss();
+        DB.storeMatchData(match);
+        DB.updateTossDetails(match.getToss(), match.getMatchId());
     }
-
-    // There are seven outcomes on each ball {"0", "1", "2", "3", "4", "5", "6", "W","Wide Ball", "No Ball"}
-    // therefore I am considering that if the Random function generates a number 7 then I consider as a wicket fall on that ball
-    // else all the other ball constitutes runs which will be added to the final score.
-    // For Wide ball we will add 1 run to the extras & total score
-    // For No Ball we will add 1 extra ball & 1 run.
 
     private Player startBowling(ArrayList<Player> battingTeamArr, ArrayList<Player> bowlingTeamArr, boolean isSecondInnings, Innings innings) {
         // This function will return the best player who scored most runs.
@@ -52,6 +51,7 @@ public class MatchController {
         int wideBall = 0, noBall = 0, prevBowler = -1;
         Player teamPlayerWhoScoredMostRuns = null;
         Player currentBatsman = battingTeamArr.get(indOfPlayerOnStrike);
+        PlayerStats currentBatsmanStats = currentBatsman.getPlayerStats();
         while (currentOver <= match.getMatchOvers() - 1 && innings.getFallOfWickets() < 11) {
             ArrayList<String> currentOverBallSummary = new ArrayList<String>();
             wideBall = 0;
@@ -63,11 +63,12 @@ public class MatchController {
             while (prevBowler == indOfBowler) indOfBowler = (int) (Math.random() * 5) + 6;
 
             Player currentBowler = bowlingTeamArr.get(indOfBowler);
+            PlayerStats currentBowlerStats = currentBowler.getPlayerStats();
             int runsInCurrentover = 0;
             for (currentBall = 0; currentBall < 6 + wideBall + noBall; currentBall++) {
 
                 // we check for the best player in a team i.e, who scored more runs
-                if (teamPlayerWhoScoredMostRuns != null && currentBatsman.getRunsScored() > teamPlayerWhoScoredMostRuns.getRunsScored())
+                if (teamPlayerWhoScoredMostRuns != null && currentBatsmanStats.getRunsScored() > teamPlayerWhoScoredMostRuns.getPlayerStats().getRunsScored())
                     teamPlayerWhoScoredMostRuns = currentBatsman;
                 else if (teamPlayerWhoScoredMostRuns == null) teamPlayerWhoScoredMostRuns = currentBatsman;
 
@@ -81,7 +82,7 @@ public class MatchController {
                 }
                 if (innings.getFallOfWickets() < 11) {
                     int ballOutcome = (int) (Math.random() * 10);
-                    currentBatsman.setBallsFaced(currentBatsman.getBallsFaced() + 1); // increasing the ball count
+                    currentBatsmanStats.setBallsFaced(currentBatsmanStats.getBallsFaced() + 1); // increasing the ball count
                     // if outcome is 7 it means the batsman is out then we call the next player to bat
                     // else we will add the run scored on that ball to the player's scorecard as well as to the team's scorecard
                     if (ballOutcome == 7) {
@@ -91,10 +92,10 @@ public class MatchController {
                         wc.setBatsmanName(currentBatsman.getName());
                         wc.setBowlerId(currentBowler.getPlayerId());
                         wc.setBowlerName(currentBowler.getName()); // set the bowler name who took the wicket
-                        currentBowler.setEconomy(((double) currentBowler.getRunsGiven()) / currentBowler.getOversBowled());
-                        currentBowler.setWicketsTaken(currentBowler.getWicketsTaken() + 1);
-                        currentBowler.setBallsBowled(currentBowler.getBallsBowled() + 1);
-                        currentBowler.setOversBowled((double) (currentBowler.getBallsBowled() / 6) + ((currentBowler.getBallsBowled()) % 6) * 0.1);
+                        currentBowlerStats.setEconomy(((double) currentBowlerStats.getRunsGiven()) / currentBowlerStats.getOversBowled());
+                        currentBowlerStats.setWicketsTaken(currentBowlerStats.getWicketsTaken() + 1);
+                        currentBowlerStats.setBallsBowled(currentBowlerStats.getBallsBowled() + 1);
+                        currentBowlerStats.setOversBowled((double) (currentBowlerStats.getBallsBowled() / 6) + ((currentBowlerStats.getBallsBowled()) % 6) * 0.1);
                         double cov = 0.0;// get current over
                         if (currentBall - wideBall - noBall < 5) {
                             cov = currentOver + ((currentBall + 1 - wideBall - noBall) * 0.1);
@@ -106,18 +107,21 @@ public class MatchController {
                         wicketsArr.add(wc);
                         innings.setWicketsFallenHistory(wicketsArr);
                         innings.setOversBatted(cov);
-                        currentBatsman.setAverageStrikeRate(((double) currentBatsman.getRunsScored() * 100.0) / currentBatsman.getBallsFaced()); // Calculating the current player's strikerate after each ball
+                        currentBatsmanStats.setAverageStrikeRate(((double) currentBatsmanStats.getRunsScored() * 100.0) / currentBatsmanStats.getBallsFaced()); // Calculating the current player's strikerate after each ball
                         indOfPlayerOnStrike++;
                         currentOverBallSummary.add("W");
-                        if (innings.getFallOfWickets() < 11) currentBatsman = battingTeamArr.get(indOfPlayerOnStrike);
+                        if (innings.getFallOfWickets() < 11) {
+                            currentBatsman = battingTeamArr.get(indOfPlayerOnStrike);
+                            currentBatsmanStats = currentBatsman.getPlayerStats();
+                        }
                     } else if (ballOutcome == 8) // for wide ball
                     {
                         wideBall++;
                         innings.setTotalScore(innings.getTotalScore() + 1);
                         innings.setExtraRuns(innings.getExtraRuns() + 1);
                         innings.setNoOfWideBalls(innings.getNoOfWideBalls() + 1);
-                        currentBowler.setRunsGiven(currentBowler.getRunsGiven() + 1);
-                        currentBowler.setNoOfWideBalls(currentBowler.getNoOfWideBalls() + 1);
+                        currentBowlerStats.setRunsGiven(currentBowlerStats.getRunsGiven() + 1);
+                        currentBowlerStats.setNoOfWideBalls(currentBowlerStats.getNoOfWideBalls() + 1);
                         runsInCurrentover++;
                         currentOverBallSummary.add("WB");
                     } else if (ballOutcome == 9) // for No ball
@@ -126,24 +130,24 @@ public class MatchController {
                         innings.setTotalScore(innings.getTotalScore() + 1);
                         innings.setExtraRuns(innings.getExtraRuns() + 1);
                         innings.setNoOfNoBalls(innings.getNoOfNoBalls() + 1);
-                        currentBowler.setRunsGiven(currentBowler.getRunsGiven() + 1);
-                        currentBowler.setNoOfNoBalls(currentBowler.getNoOfNoBalls() + 1);
+                        currentBowlerStats.setRunsGiven(currentBowlerStats.getRunsGiven() + 1);
+                        currentBowlerStats.setNoOfNoBalls(currentBowlerStats.getNoOfNoBalls() + 1);
                         runsInCurrentover++;
                         currentOverBallSummary.add("NB");
                     } else { // for all other outcomes like 1 to 6 runs.
                         double cov = 0.0;// get current over
                         innings.setTotalScore(innings.getTotalScore() + ballOutcome);
-                        currentBatsman.setRunsScored(currentBatsman.getRunsScored() + ballOutcome);
-                        currentBowler.setBallsBowled(currentBowler.getBallsBowled() + 1);
-                        currentBowler.setOversBowled((double) (currentBowler.getBallsBowled() / 6) + ((currentBowler.getBallsBowled()) % 6) * 0.1);
-                        HashMap<Integer, Integer> currentBatsmanEachRunFreq = currentBatsman.getEachRunFreq();
+                        currentBatsmanStats.setRunsScored(currentBatsmanStats.getRunsScored() + ballOutcome);
+                        currentBowlerStats.setBallsBowled(currentBowlerStats.getBallsBowled() + 1);
+                        currentBowlerStats.setOversBowled((double) (currentBowlerStats.getBallsBowled() / 6) + ((currentBowlerStats.getBallsBowled()) % 6) * 0.1);
+                        HashMap<Integer, Integer> currentBatsmanEachRunFreq = currentBatsmanStats.getEachRunFreq();
                         if (currentBatsmanEachRunFreq.containsKey(ballOutcome)) {
                             currentBatsmanEachRunFreq.put(ballOutcome, currentBatsmanEachRunFreq.get(ballOutcome) + 1);
                         } else {
                             currentBatsmanEachRunFreq.put(ballOutcome, 1);
                         }
-                        currentBatsman.setEachRunFreq(currentBatsmanEachRunFreq);
-                        currentBowler.setRunsGiven(currentBowler.getRunsGiven() + ballOutcome);
+                        currentBatsmanStats.setEachRunFreq(currentBatsmanEachRunFreq);
+                        currentBowlerStats.setRunsGiven(currentBowlerStats.getRunsGiven() + ballOutcome);
                         if (currentBall - wideBall - noBall < 5) {
                             cov = currentOver + ((currentBall + 1 - wideBall - noBall) * 0.1);
                         } else cov = currentOver + 1;
@@ -151,8 +155,8 @@ public class MatchController {
                         runsInCurrentover += ballOutcome;
                         currentOverBallSummary.add(Integer.toString(ballOutcome));
                     }
-                    currentBowler.setEconomy(((double) currentBowler.getRunsGiven()) / currentBowler.getOversBowled());
-                    currentBatsman.setAverageStrikeRate(((double) currentBatsman.getRunsScored() * 100.0) / currentBatsman.getBallsFaced()); // Calculating the current player's strikerate after each ball
+                    currentBowlerStats.setEconomy(((double) currentBowlerStats.getRunsGiven()) / currentBowlerStats.getOversBowled());
+                    currentBatsmanStats.setAverageStrikeRate(((double) currentBatsmanStats.getRunsScored() * 100.0) / currentBatsmanStats.getBallsFaced()); // Calculating the current player's strikerate after each ball
                 } else break;
             }
             if (currentOver == 3) {
@@ -167,7 +171,7 @@ public class MatchController {
             ballSummary.add(currentOverBallSummary);
             innings.setBallSummary(ballSummary);
             if (runsInCurrentover == 0)
-                currentBowler.setMaidenOvers(currentBowler.getMaidenOvers() + 1);
+                currentBowlerStats.setMaidenOvers(currentBowlerStats.getMaidenOvers() + 1);
             prevBowler = indOfBowler;
             if (isSecondInnings && isTeamWhoBatted2ndScoreGreaterThanTeamWhoBatted1st) break;
             currentOver++;
@@ -197,6 +201,12 @@ public class MatchController {
         return teamPlayerWhoScoredMostRuns;
     }
 
+    // There are seven outcomes on each ball {"0", "1", "2", "3", "4", "5", "6", "W","Wide Ball", "No Ball"}
+    // therefore I am considering that if the Random function generates a number 7 then I consider as a wicket fall on that ball
+    // else all the other ball constitutes runs which will be added to the final score.
+    // For Wide ball we will add 1 run to the extras & total score
+    // For No Ball we will add 1 extra ball & 1 run.
+
     public void checkWinner(Innings firstInnings, Innings secondInnings, Player teamAplayer, Player teamBplayer) {
         Team teamA; // get Team A
         Team teamB; // get Team B
@@ -211,7 +221,7 @@ public class MatchController {
             } else {
                 System.out.printf(teamB.getTeamName() + " player's were able to achieve the target of " + (firstInnings.getTotalScore() + 1) + " & scored " + secondInnings.getTotalScore() + " runs at the cost of " + secondInnings.getFallOfWickets() + " wickets in %.1f\n overs.", secondInnings.getOversBatted());
             }
-            System.out.println(teamBplayer.getName() + " is choosen to be the Man of the Match as he scored " + teamBplayer.getRunsScored() + " in " + teamBplayer.getBallsFaced() + " balls.");
+            System.out.println(teamBplayer.getName() + " is choosen to be the Man of the Match as he scored " + teamBplayer.getPlayerStats().getRunsScored() + " in " + teamBplayer.getPlayerStats().getBallsFaced() + " balls.");
         } else {
             if (firstInnings.getBattingTeamId() == teamA.getTeamId()) {
                 System.out.println(teamA.getTeamName() + " won the match by " + (firstInnings.getTotalScore() - secondInnings.getTotalScore()) + " runs.");
@@ -219,11 +229,11 @@ public class MatchController {
             } else {
                 System.out.printf(teamA.getTeamName() + " player's were able to achieve the target of " + (firstInnings.getTotalScore() + 1) + " & scored " + secondInnings.getTotalScore() + " runs at the cost of " + secondInnings.getFallOfWickets() + " wickets in %.1f\n overs.", secondInnings.getOversBatted());
             }
-            System.out.println(teamAplayer.getName() + " is choosen to be the Man of the Match as he scored " + teamAplayer.getRunsScored() + " in " + teamAplayer.getBallsFaced() + " balls.");
+            System.out.println(teamAplayer.getName() + " is choosen to be the Man of the Match as he scored " + teamAplayer.getPlayerStats().getRunsScored() + " in " + teamAplayer.getPlayerStats().getBallsFaced() + " balls.");
         }
     }
 
-    public void playMatch() {
+    public void playMatch() throws SQLException {
 
         Team teamB = match.getTeamB(); // get Team B
         Team teamA = match.getTeamA(); // get Team A
@@ -272,6 +282,13 @@ public class MatchController {
             match.setTeamBBestPlayer(teamBplayer);
         }
         checkWinner(firstInnings, secondInnings, teamAplayer, teamBplayer);
+        DB.updateMatchData(match); // Updating match Data in Sql
+        DB.updatePlayerStats(teamAPlayersArr, match.getMatchId()); // Updating stats of team A Players
+        DB.updatePlayerStats(teamBPlayersArr, match.getMatchId()); // Updating stats of team B Players
+        DB.updateInningsStats(match.getMatchId(), firstInnings);
+        DB.updateInningsStats(match.getMatchId(), secondInnings);
+        DB.updateWicketsHistory(match.getMatchId(),firstInnings.getInningsId(),firstInnings.getWicketsFallenHistory()); // Updating stats of team A Players Wickets
+        DB.updateWicketsHistory(match.getMatchId(),secondInnings.getInningsId(),secondInnings.getWicketsFallenHistory()); // Updating stats of team B Players wickets
         Scoreboard.completeScoreCard(firstInnings, secondInnings, teamA, teamB);
         System.out.println("Printing Ball Summary of first Innings");
         BallSummary.printBallSummary(firstInnings.getBallSummary());

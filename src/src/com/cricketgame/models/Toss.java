@@ -3,8 +3,9 @@ package src.com.cricketgame.models;
 import java.util.Scanner;
 
 public class Toss {
-    private String onTossOutcome, winnerChoseTo, whoTookTheCall;
-    private int callerChoice, tossWinner, whoWillBat, whoWillBowl;
+
+    private String onTossOutcome, winnerChoseTo, callerChoice;
+    private int tossWinner, whoWillBat, whoWillBowl, whoTookTheCall;
 
     public int getTossWinner() {
         return tossWinner;
@@ -22,147 +23,148 @@ public class Toss {
         this.winnerChoseTo = winnerChoseTo;
     }
 
-    public void setCallerChoice(int callerChoice) {
-        this.callerChoice = callerChoice;
-    }
-
-    public void setWhoTookTheCall(String whoTookTheCall) {
-        this.whoTookTheCall = whoTookTheCall;
-    }
-
-    public int getCallerChoice() {
+    public String getCallerChoice() {
         return callerChoice;
+    }
+
+    public void setCallerChoice(String callerChoice) {
+        this.callerChoice = callerChoice;
     }
 
     public String getOnTossOutcome() {
         return onTossOutcome;
     }
 
-    public String getWhoTookTheCall() {
-        return whoTookTheCall;
-    }
-
     public void setOnTossOutcome(String onTossOutcome) {
         this.onTossOutcome = onTossOutcome;
     }
 
-    public void setWhoWillBowl(int getWhoWillBowl) {
-        this.whoWillBowl = getWhoWillBowl;
+    public int getWhoTookTheCall() {
+        return whoTookTheCall;
     }
 
-    public void setWhoWillBat(int whoWillBat) {
-        this.whoWillBat = whoWillBat;
+    public void setWhoTookTheCall(int whoTookTheCall) {
+        this.whoTookTheCall = whoTookTheCall;
     }
 
     public int getWhoWillBowl() {
         return whoWillBowl;
     }
 
+    public void setWhoWillBowl(int getWhoWillBowl) {
+        this.whoWillBowl = getWhoWillBowl;
+    }
+
     public int getWhoWillBat() {
         return whoWillBat;
     }
 
-    private void decideWhoWillBatOrBowl(int selectFirst) {
+    public void setWhoWillBat(int whoWillBat) {
+        this.whoWillBat = whoWillBat;
+    }
+
+    private void decideWhoWillBatOrBowl(int selectFirst, int teamAId, int teamBId) {
         if (selectFirst == 0) {
             setWinnerChoseTo("Bat");
-            if (tossWinner == 0) {
-                setWhoWillBat(0);
-                setWhoWillBowl(1);
+            if (tossWinner == teamAId) {
+                setWhoWillBat(teamAId);
+                setWhoWillBowl(teamBId);
             } else {
-                setWhoWillBat(1);
-                setWhoWillBowl(0);
+                setWhoWillBat(teamBId);
+                setWhoWillBowl(teamAId);
             }
         } else {
             setWinnerChoseTo("Bowl");
-            if (tossWinner == 0) {
-                setWhoWillBat(1);
-                setWhoWillBowl(0);
+            if (tossWinner == teamAId) {
+                setWhoWillBat(teamBId);
+                setWhoWillBowl(teamAId);
             } else {
-                setWhoWillBat(0);
-                setWhoWillBowl(1);
+                setWhoWillBat(teamAId);
+                setWhoWillBowl(teamBId);
             }
         }
     }
-    private void tossStatusMessage(String callingTeam, int choice, boolean outcomeEqualToChoice, int outComeOnToss) {
-        if(outcomeEqualToChoice)
-        {
-            if (callingTeam.equals("Team A")) //
-                setTossWinner(0);
+
+    private void tossStatusMessage(Team teamA, Team teamB, String callingTeam, int choice, int outComeOnToss) {
+        boolean outcomeEqualToChoice = choice == outComeOnToss;
+        if (outcomeEqualToChoice) {
+            if (callingTeam.equals(teamA.getTeamName())) //
+                setTossWinner(teamA.getTeamId());
             else
-                setTossWinner(1);
+                setTossWinner(teamB.getTeamId());
             if (choice == 0)
-                setOnTossOutcome("HEAD");
+                setOnTossOutcome("Head");
             else
-                setOnTossOutcome("TAIL");
-            if (callingTeam.equals("Team A")) {
+                setOnTossOutcome("Tail");
+
+            if (callingTeam.equals(teamA.getTeamName())) {
                 if (choice == 0)
-                    System.out.println("So Head's is the call & it is Head, Team A have won the toss");
+                    System.out.println("So Head's is the call & it is Head, " + teamA.getTeamName() + " have won the toss");
                 else
-                    System.out.println("So Tail's is the call & it is Tail, Team A have won the toss");
+                    System.out.println("So Tail's is the call & it is Tail, " + teamA.getTeamName() + " have won the toss");
             } else {
                 if (choice == 0)
-                    System.out.println("So Head's is the call & it's Head, Team B have won the toss");
+                    System.out.println("So Head's is the call & it's Head, " + teamB.getTeamName() + " have won the toss");
                 else
-                    System.out.println("So Tail's is the call & it's Tail, Team B have won the toss");
+                    System.out.println("So Tail's is the call & it's Tail, " + teamB.getTeamName() + " have won the toss");
             }
-        }
-        else  {
-            if (callingTeam.equals("Team A"))
-                setTossWinner(1);
+        } else {
+            if (callingTeam.equals(teamA.getTeamName()))
+                setTossWinner(teamB.getTeamId());
             else
-                setTossWinner(0);
+                setTossWinner(teamA.getTeamId());
             if (outComeOnToss == 0)
-                setOnTossOutcome("HEAD");
+                setOnTossOutcome("Head");
             else
-                setOnTossOutcome("TAIL");
+                setOnTossOutcome("Tail");
 
-            if (callingTeam.equals("Team A")) {
+            if (callingTeam.equals(teamA.getTeamName())) {
                 if (outComeOnToss == 0)
-                    System.out.println("So Tail's is the call & it's Head, Team B have won the toss");
+                    System.out.println("So Tail's is the call & it's Head, " + teamB.getTeamName() + " have won the toss");
                 else
-                    System.out.println("So Head's is the call & it's Tail, Team B have won the toss");
+                    System.out.println("So Head's is the call & it's Tail, " + teamB.getTeamName() + " have won the toss");
             } else {
                 if (outComeOnToss == 0)
-                    System.out.println("So Tail's is the call & it's Head, Team A have won the toss");
+                    System.out.println("So Tail's is the call & it's Head, "+ teamA.getTeamName() + " have won the toss");
                 else
-                    System.out.println("So Head's is the call & it's Tail, Team A have won the toss");
+                    System.out.println("So Head's is the call & it's Tail, "+ teamA.getTeamName() + " have won the toss");
             }
         }
-
-
     }
 
-    private void tossUtil(String callingTeam) {
+    private void tossUtil(String callingTeam, Team teamA, Team teamB) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter your choice: Head or Tail");
         System.out.println("Enter 0 for HEAD");
         System.out.println("Enter 1 for TAIL");
         int choice = sc.nextInt();
+
+        setCallerChoice(choice == 0 ? "Head" : "Tail");
         int outComeOnToss = (int) (Math.random() * 2);
         // I have considered 0 for head & 1 for tail
         System.out.println("Toss Outcome: " + outComeOnToss);
-        if (choice == outComeOnToss) { // this is when choice & random select are same then
-            tossStatusMessage(callingTeam, choice, true, outComeOnToss);
-        } else {
-            tossStatusMessage(callingTeam, choice, false, outComeOnToss);
-        }
+        tossStatusMessage(teamA, teamB, callingTeam, choice, outComeOnToss);
+
         System.out.println("What will you choose ?");
         System.out.println("Enter 0 for Batting");
         System.out.println("Enter 1 for Bowling");
         int selectFirst = sc.nextInt();
-        decideWhoWillBatOrBowl(selectFirst);
+        decideWhoWillBatOrBowl(selectFirst, teamA.getTeamId(), teamB.getTeamId());
     }
 
-    public void tossSetup() {
+    public void tossSetup(Team teamA, Team teamB) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Now will play the coin for the Toss");
-        System.out.println("Please Decide who will take the call & enter 1 or 2 for whoever will take the call");
+        System.out.println("Please Decide who will take the call & enter 1 for "+teamA.getTeamName()+" or 2 for "+teamB.getTeamName()+" whoever will take the call");
         int call = sc.nextInt();
         // Here TeamA is considered as 0 & TeamB is considered as 1
+
         if (call == 1) {
-            tossUtil("Team A");
+            setWhoTookTheCall(teamA.getTeamId());
+            tossUtil(teamA.getTeamName(), teamA, teamB);
         } else {
-            tossUtil("Team B");
+            setWhoTookTheCall(teamB.getTeamId());
+            tossUtil(teamB.getTeamName(), teamA, teamB);
         }
     }
 }

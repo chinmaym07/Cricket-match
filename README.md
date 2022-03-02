@@ -2,7 +2,8 @@
 
 ### Class Diagram
 
-I have created 7 necessary classes
+I have created 9 necessary classes
+
 - Player
 - Team
 - Match
@@ -10,11 +11,15 @@ I have created 7 necessary classes
 - Innings
 - Toss
 - WicketHistory
+- BallSummary
 - Scoreboard
 
 I have created a class `MatchTest` in `com.cricketgame.test` package for testing.
 
 ![Cricket Game Class Diagram](images/Cricket%20Game%20Class%20Diagram-week2-updated.jpeg)
+
+### Database Schema
+![Cricket Game Database Schema](images/Database%20Schema.png)
 
 ### Sample Output
 

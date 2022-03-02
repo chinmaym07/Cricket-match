@@ -5,12 +5,12 @@ public class WicketsHistory {
     private double wickerFallenInOver = 0.0;
     private int runScored = 0, wicketsDown = 0, bowlerId, batsmanId;
 
-    public void setWickerFallenInOver(double wickerFallenInOver) {
-        this.wickerFallenInOver = wickerFallenInOver;
-    }
-
     public double getWickerFallenInOver() {
         return wickerFallenInOver;
+    }
+
+    public void setWickerFallenInOver(double wickerFallenInOver) {
+        this.wickerFallenInOver = wickerFallenInOver;
     }
 
     public int getRunScored() {
@@ -25,12 +25,8 @@ public class WicketsHistory {
         return wicketsDown;
     }
 
-    public void setBowlerName(String bowlerName) {
-        this.bowlerName = bowlerName;
-    }
-
-    public void setBatsmanName(String batsmanName) {
-        this.batsmanName = batsmanName;
+    public void setWicketsDown(int wicketsDown) {
+        this.wicketsDown = wicketsDown;
     }
 
     public int getBatsmanId() {
@@ -41,23 +37,27 @@ public class WicketsHistory {
         this.batsmanId = batsmanId;
     }
 
-    public void setBowlerId(int bowlerId) {
-        this.bowlerId = bowlerId;
-    }
-
     public int getBowlerId() {
         return bowlerId;
+    }
+
+    public void setBowlerId(int bowlerId) {
+        this.bowlerId = bowlerId;
     }
 
     public String getBowlerName() {
         return bowlerName;
     }
 
+    public void setBowlerName(String bowlerName) {
+        this.bowlerName = bowlerName;
+    }
+
     public String getBatsmanName() {
         return batsmanName;
     }
 
-    public void setWicketsDown(int wicketsDown) {
-        this.wicketsDown = wicketsDown;
+    public void setBatsmanName(String batsmanName) {
+        this.batsmanName = batsmanName;
     }
 }

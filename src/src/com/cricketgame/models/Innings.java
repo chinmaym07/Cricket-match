@@ -3,22 +3,30 @@ package src.com.cricketgame.models;
 import java.util.ArrayList;
 
 public class Innings {
-    private int battingTeamId, bowlingTeamId, matchId;
+    private int battingTeamId, bowlingTeamId, matchId, inningsId;
     private ArrayList<ArrayList<String>> ballSummary = new ArrayList<ArrayList<String>>();
     private int totalScore = 0, fallOfWickets = 0, extraRuns = 0, noOfWideBalls = 0, noOfNoBalls = 0;
     private double oversBatted = 0.0;
     private ArrayList<WicketsHistory> wicketsFallenHistory = new ArrayList<WicketsHistory>();
 
+    public void setInningsId(int inningsId) {
+        this.inningsId = inningsId;
+    }
+
+    public int getInningsId() {
+        return inningsId;
+    }
+
     public int getNoOfNoBalls() {
         return noOfNoBalls;
     }
 
-    public int getNoOfWideBalls() {
-        return noOfWideBalls;
-    }
-
     public void setNoOfNoBalls(int noOfNoBalls) {
         this.noOfNoBalls = noOfNoBalls;
+    }
+
+    public int getNoOfWideBalls() {
+        return noOfWideBalls;
     }
 
     public void setNoOfWideBalls(int noOfWideBalls) {
@@ -70,8 +78,16 @@ public class Innings {
         return battingTeamId;
     }
 
+    public void setBattingTeamId(int battingTeamId) {
+        this.battingTeamId = battingTeamId;
+    }
+
     public int getBowlingTeamId() {
         return bowlingTeamId;
+    }
+
+    public void setBowlingTeamId(int bowlingTeamId) {
+        this.bowlingTeamId = bowlingTeamId;
     }
 
     public int getMatchId() {
@@ -80,14 +96,6 @@ public class Innings {
 
     public void setMatchId(int matchId) {
         this.matchId = matchId;
-    }
-
-    public void setBattingTeamId(int battingTeamId) {
-        this.battingTeamId = battingTeamId;
-    }
-
-    public void setBowlingTeamId(int bowlingTeamId) {
-        this.bowlingTeamId = bowlingTeamId;
     }
 
     public double getOversBatted() {

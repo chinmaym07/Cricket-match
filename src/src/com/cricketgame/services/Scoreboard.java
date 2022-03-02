@@ -1,9 +1,6 @@
 package src.com.cricketgame.services;
 
-import src.com.cricketgame.models.Innings;
-import src.com.cricketgame.models.Player;
-import src.com.cricketgame.models.Team;
-import src.com.cricketgame.models.WicketsHistory;
+import src.com.cricketgame.models.*;
 
 import java.util.ArrayList;
 
@@ -13,9 +10,10 @@ public class Scoreboard {
         System.out.println("Batter \t\t\t\t Runs Score \t\t\t\t Ball's Faced \t\t\t\t 4's \t\t\t\t 6's \t\t\t\t StrikeRate\n");
         for (Player currentPlayer : playerArr) {
             // System.out.println(currentPlayer.getName() + " played "+currentPlayer.getBallsFaced() +" balls.");
-            if (currentPlayer.getBallsFaced() > 0)
+            PlayerStats currentPlayerStats = currentPlayer.getPlayerStats();
+            if (currentPlayerStats.getBallsFaced() > 0)
                 // System.out.printf(currentPlayer.getName() + " scored " + currentPlayer.getRunsScored() + " in " + currentPlayer.getBallsFaced() + " balls at a strike rate of %4.1f\n", currentPlayer.getAverageStrikeRate());
-                System.out.printf(currentPlayer.getName() + "\t\t\t\t\t\t" + currentPlayer.getRunsScored() + "\t\t\t\t\t\t\t" + currentPlayer.getBallsFaced() + "\t\t\t\t\t\t  " + currentPlayer.getNumberOfRunsFreq(4) + "\t\t\t\t\t  " + currentPlayer.getNumberOfRunsFreq(6) + "\t\t\t\t\t   %4.1f\n", currentPlayer.getAverageStrikeRate());
+                System.out.printf(currentPlayer.getName() + "\t\t\t\t\t\t" + currentPlayerStats.getRunsScored() + "\t\t\t\t\t\t\t" + currentPlayerStats.getBallsFaced() + "\t\t\t\t\t\t  " + currentPlayerStats.getNumberOfRunsFreq(4) + "\t\t\t\t\t  " + currentPlayerStats.getNumberOfRunsFreq(6) + "\t\t\t\t\t   %4.1f\n", currentPlayerStats.getAverageStrikeRate());
             else playersDidNotBat++;
         }
         System.out.println("Extras \t\t\t\t\t" + innings.getExtraRuns() + "(nb " + innings.getNoOfNoBalls() + ", wb " + innings.getNoOfWideBalls() + ")");
@@ -24,7 +22,8 @@ public class Scoreboard {
             System.out.println("Did not Bat");
             int count = 0; // checking the count as this will be used for printing comma
             for (Player currentPlayer : playerArr) {
-                if (currentPlayer.getBallsFaced() == 0) {
+                PlayerStats currentPlayerStats = currentPlayer.getPlayerStats();
+                if (currentPlayerStats.getBallsFaced() == 0) {
                     System.out.print(currentPlayer.getName());
                     count++;
                     if (count != playersDidNotBat) {
@@ -48,14 +47,15 @@ public class Scoreboard {
     }
 
     private static void printBowlingStats(ArrayList<Player> players) {
-        System.out.println("Bowler \t\t Over's Bowled \t\t Maiden Overs \t\t Runs Given \t\t  Wicket's Taken \t\t NoBall's \t\t WideBall's \t\t Economy\n");
+        System.out.println("Bowler \t\t\t\t Over's Bowled \t\t Maiden Overs \t\t Runs Given \t\t  Wicket's Taken \t\t NoBall's \t\t WideBall's \t\t Economy\n");
         for (Player currentPlayer : players) {
             // System.out.println(currentPlayer.getName() + " played "+currentPlayer.getBallsBowled() +" balls.");
-
-            if (currentPlayer.getBallsBowled() > 0)
-                System.out.printf(currentPlayer.getName() + "\t\t\t\t %4.1f" + "\t\t\t\t" + currentPlayer.getMaidenOvers() + "\t\t\t\t\t" + currentPlayer.getRunsGiven() + "\t\t\t\t\t" + currentPlayer.getWicketsTaken() + "\t\t\t\t\t\t" + currentPlayer.getNoOfNoBalls() + "\t\t\t\t" + currentPlayer.getNoOfWideBalls() + "\t\t\t\t   %4.1f\n", currentPlayer.getOversBowled(), currentPlayer.getEconomy());
+            PlayerStats currentPlayerStats = currentPlayer.getPlayerStats();
+            if (currentPlayerStats.getBallsBowled() > 0)
+                System.out.printf(currentPlayer.getName() + "\t\t\t %4.1f" + "\t\t\t\t" + currentPlayerStats.getMaidenOvers() + "\t\t\t\t\t" + currentPlayerStats.getRunsGiven() + "\t\t\t\t\t" + currentPlayerStats.getWicketsTaken() + "\t\t\t\t\t\t" + currentPlayerStats.getNoOfNoBalls() + "\t\t\t\t" + currentPlayerStats.getNoOfWideBalls() + "\t\t\t\t   %4.1f\n", currentPlayerStats.getOversBowled(), currentPlayerStats.getEconomy());
         }
     }
+
     private static void printingScoreCard(String teamName, ArrayList<Player> battingTeamPlayersArr, Innings innings, ArrayList<Player> bowlingTeamPlayersArr, boolean secondInnings) {
         if (secondInnings)
             System.out.println("Innings 2");
@@ -74,6 +74,7 @@ public class Scoreboard {
 
         System.out.println("**********************************************************************************************************************************************");
     }
+
     public static void statsPerInnings(Innings innings, Team teamA, Team teamB) {
         ArrayList<Player> teamAPlayersArr = teamA.getPlayersArr(); // getting the Player arr of Team A
         ArrayList<Player> teamBPlayersArr = teamB.getPlayersArr(); // getting the Player arr of Team B
@@ -88,6 +89,7 @@ public class Scoreboard {
         }
 
     }
+
     public static void completeScoreCard(Innings firstInnings, Innings secondInnings, Team teamA, Team teamB) {
         ArrayList<Player> teamAPlayersArr = teamA.getPlayersArr(); // getting the Player arr of Team A
         ArrayList<Player> teamBPlayersArr = teamB.getPlayersArr(); // getting the Player arr of Team B
