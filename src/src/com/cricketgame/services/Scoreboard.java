@@ -13,7 +13,7 @@ public class Scoreboard {
             PlayerStats currentPlayerStats = currentPlayer.getPlayerStats();
             if (currentPlayerStats.getBallsFaced() > 0)
                 // System.out.printf(currentPlayer.getName() + " scored " + currentPlayer.getRunsScored() + " in " + currentPlayer.getBallsFaced() + " balls at a strike rate of %4.1f\n", currentPlayer.getAverageStrikeRate());
-                System.out.printf(currentPlayer.getName() + "\t\t\t\t\t\t" + currentPlayerStats.getRunsScored() + "\t\t\t\t\t\t\t" + currentPlayerStats.getBallsFaced() + "\t\t\t\t\t\t  " + currentPlayerStats.getNumberOfRunsFreq(4) + "\t\t\t\t\t  " + currentPlayerStats.getNumberOfRunsFreq(6) + "\t\t\t\t\t   %4.1f\n", currentPlayerStats.getAverageStrikeRate());
+                System.out.printf(currentPlayer.getName().substring(0,8) + "\t\t\t\t" + currentPlayerStats.getRunsScored() + "\t\t\t\t\t\t\t" + currentPlayerStats.getBallsFaced() + "\t\t\t\t\t\t\t  " + currentPlayerStats.getNumberOfRunsFreq(4) + "\t\t\t\t\t  " + currentPlayerStats.getNumberOfRunsFreq(6) + "\t\t\t\t\t   %4.1f\n", currentPlayerStats.getAverageStrikeRate());
             else playersDidNotBat++;
         }
         System.out.println("Extras \t\t\t\t\t" + innings.getExtraRuns() + "(nb " + innings.getNoOfNoBalls() + ", wb " + innings.getNoOfWideBalls() + ")");
@@ -52,7 +52,7 @@ public class Scoreboard {
             // System.out.println(currentPlayer.getName() + " played "+currentPlayer.getBallsBowled() +" balls.");
             PlayerStats currentPlayerStats = currentPlayer.getPlayerStats();
             if (currentPlayerStats.getBallsBowled() > 0)
-                System.out.printf(currentPlayer.getName() + "\t\t\t %4.1f" + "\t\t\t\t" + currentPlayerStats.getMaidenOvers() + "\t\t\t\t\t" + currentPlayerStats.getRunsGiven() + "\t\t\t\t\t" + currentPlayerStats.getWicketsTaken() + "\t\t\t\t\t\t" + currentPlayerStats.getNoOfNoBalls() + "\t\t\t\t" + currentPlayerStats.getNoOfWideBalls() + "\t\t\t\t   %4.1f\n", currentPlayerStats.getOversBowled(), currentPlayerStats.getEconomy());
+                System.out.printf(currentPlayer.getName().substring(0,8) + "\t\t\t %4.1f" + "\t\t\t\t" + currentPlayerStats.getMaidenOvers() + "\t\t\t\t\t\t" + currentPlayerStats.getRunsGiven() + "\t\t\t\t\t" + currentPlayerStats.getWicketsTaken() + "\t\t\t\t\t\t" + currentPlayerStats.getNoOfNoBalls() + "\t\t\t\t" + currentPlayerStats.getNoOfWideBalls() + "\t\t\t\t   %4.1f\n", currentPlayerStats.getOversBowled(), currentPlayerStats.getEconomy());
         }
     }
 

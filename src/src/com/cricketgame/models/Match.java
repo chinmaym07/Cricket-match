@@ -5,7 +5,6 @@ import src.com.cricketgame.repo.DB;
 import java.sql.SQLException;
 
 public class Match {
-    private static int matchCount = 1;
     private int matchId = 0;
     private Team teamA = new Team();
     private Team teamB = new Team();
