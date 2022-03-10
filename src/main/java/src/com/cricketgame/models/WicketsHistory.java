@@ -2,15 +2,15 @@ package src.com.cricketgame.models;
 
 public class WicketsHistory {
     private String bowlerName, batsmanName;
-    private double wickerFallenInOver = 0.0;
+    private double wicketsFallenInOver = 0.0;
     private int runScored = 0, wicketsDown = 0, bowlerId, batsmanId;
 
-    public double getWickerFallenInOver() {
-        return wickerFallenInOver;
+    public double getWicketsFallenInOver() {
+        return wicketsFallenInOver;
     }
 
-    public void setWickerFallenInOver(double wickerFallenInOver) {
-        this.wickerFallenInOver = wickerFallenInOver;
+    public void setWicketsFallenInOver(double wicketsFallenInOver) {
+        this.wicketsFallenInOver = wicketsFallenInOver;
     }
 
     public int getRunScored() {

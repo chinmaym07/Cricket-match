@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import src.com.cricketgame.DTO.RequestDTOs.StartTossDTO;
 import src.com.cricketgame.DTO.ResponseDTOs.MatchesDTO;
 import src.com.cricketgame.DTO.ResponseDTOs.TossDTO;
-import src.com.cricketgame.models.Match;
 import src.com.cricketgame.models.Team;
 import src.com.cricketgame.models.Toss;
 import src.com.cricketgame.repo.MatchRepositoryImpl;
@@ -22,6 +21,7 @@ public class TossService {
 
     @Autowired
     private TeamRepositoryImpl teamRepository;
+
     public String startToss(int matchId, StartTossDTO startTossDTO) {
 
         MatchesDTO matchesDTO = matchRepository.getMatchDetails(matchId);
@@ -30,7 +30,7 @@ public class TossService {
         matchesDTO.setTeamAName(teamA.getTeamName());
         matchesDTO.setTeamBName(teamB.getTeamName());
 
-        return tossRepository.startToss(teamA,teamB,matchesDTO,startTossDTO);
+        return tossRepository.startToss(teamA, teamB, matchesDTO, startTossDTO);
     }
 
     public TossDTO getTossDetails(int matchId) {
@@ -53,6 +53,6 @@ public class TossService {
         matchesDTO.setTeamAName(teamA.getTeamName());
         matchesDTO.setTeamBName(teamB.getTeamName());
 
-        return tossRepository.makeChoice(matchId,winnerChoice, matchesDTO);
+        return tossRepository.makeChoice(matchId, winnerChoice, matchesDTO);
     }
 }

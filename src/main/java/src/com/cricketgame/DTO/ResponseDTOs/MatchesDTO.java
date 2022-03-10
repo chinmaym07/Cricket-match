@@ -1,30 +1,59 @@
 package src.com.cricketgame.DTO.ResponseDTOs;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jdk.nashorn.internal.ir.annotations.Ignore;
+import src.com.cricketgame.models.Innings;
 
 public class MatchesDTO {
 
-    private int teamAId,teamBId, matchId;
+    private int teamAId, teamBId, matchId;
     private String teamAName, teamBName, matchResult;
     private int matchOvers;
-
     private String teamWhoWonToss;
+
     private int teamIdWhoWonTheMatch;
-    private String matchStatus;
     @JsonIgnore
+    private int teamIdWhoWonTheToss;
+    private String matchStatus;
+
+    public int getTeamIdWhoWonTheToss() {
+        return teamIdWhoWonTheToss;
+    }
+
+    public void setTeamIdWhoWonTheToss(int teamIdWhoWonTheToss) {
+        this.teamIdWhoWonTheToss = teamIdWhoWonTheToss;
+    }
+
+    @JsonIgnore
+    private Innings firstInnings, secondInnings;
+
+    public Innings getFirstInnings() {
+        return firstInnings;
+    }
+
+    public Innings getSecondInnings() {
+        return secondInnings;
+    }
+
+    public void setFirstInnings(Innings firstInnings) {
+        this.firstInnings = firstInnings;
+    }
+
+    public void setSecondInnings(Innings secondInnings) {
+        this.secondInnings = secondInnings;
+    }
+
     public int getTeamIdWhoWonTheMatch() {
         return teamIdWhoWonTheMatch;
     }
-    @JsonIgnore
+
     public void setTeamWhoWonToss(String teamWhoWonToss) {
         this.teamWhoWonToss = teamWhoWonToss;
     }
-    @JsonIgnore
+
     public String getTeamWhoWonToss() {
         return teamWhoWonToss;
     }
-    @JsonIgnore
+
     public void setTeamIdWhoWonTheMatch(int teamIdWhoWonTheMatch) {
         this.teamIdWhoWonTheMatch = teamIdWhoWonTheMatch;
     }

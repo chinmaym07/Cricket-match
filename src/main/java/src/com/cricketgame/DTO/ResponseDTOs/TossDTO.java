@@ -54,23 +54,23 @@ public class TossDTO {
     }
 
     public void convertTossToTossDTO(Toss toss, int teamAId,int teamBId, String teamAName,String teamBName) {
-        if (toss.getTossWinner() == teamAId)
-            this.setTeamWhoWonTheToss(teamAName);
-        else
-            this.setTeamWhoWonTheToss(teamBName);
-        if (toss.getWhoTookTheCall() == teamAId)
-            this.setTeamWhoTookTheCall(teamAName);
-        else
-            this.setTeamWhoTookTheCall(teamBName);
+        if (toss.getTeamIdWhoWonTheToss() == teamAId)
+            setTeamWhoWonTheToss(teamAName);
+        else if (toss.getTeamIdWhoWonTheToss() == teamBId)
+            setTeamWhoWonTheToss(teamBName);
+        if (toss.getTeamIdWhoTookTheCall() == teamAId)
+            setTeamWhoTookTheCall(teamAName);
+        else if (toss.getTeamIdWhoWonTheToss() == teamBId)
+            setTeamWhoTookTheCall(teamBName);
         if (toss.getWhoWillBat() == teamAId) {
-            this.setTeamWhoWillBat(teamAName);
-            this.setTeamWhoWillBowl(teamBName);
+            setTeamWhoWillBat(teamAName);
+            setTeamWhoWillBowl(teamBName);
         } else {
-            this.setTeamWhoWillBat(teamBName);
-            this.setTeamWhoWillBowl(teamAName);
+            setTeamWhoWillBat(teamBName);
+            setTeamWhoWillBowl(teamAName);
         }
-        this.setTossOutcome(toss.getTossOutcome());
-        this.setCallersChoice(toss.getCallersChoice());
+        setTossOutcome(toss.getTossOutcome());
+        setCallersChoice(toss.getCallersChoice());
 
     }
 }

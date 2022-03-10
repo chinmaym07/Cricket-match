@@ -1,13 +1,24 @@
 package src.com.cricketgame.models;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Innings {
     private int battingTeamId, bowlingTeamId, matchId, inningsId;
-    private ArrayList<ArrayList<String>> ballSummary = new ArrayList<ArrayList<String>>();
+    private List<List<String>> ballSummary = new ArrayList<List<String>>();
     private int totalScore = 0, fallOfWickets = 0, extraRuns = 0, noOfWideBalls = 0, noOfNoBalls = 0;
     private double oversBatted = 0.0;
-    private ArrayList<WicketsHistory> wicketsFallenHistory = new ArrayList<WicketsHistory>();
+    private String inningsStatus;
+    private List<WicketsHistory> wicketsFallenHistory = new ArrayList<WicketsHistory>();
+
+
+    public String getInningsStatus() {
+        return inningsStatus;
+    }
+
+    public void setInningsStatus(String inningsStatus) {
+        this.inningsStatus = inningsStatus;
+    }
 
     public void setInningsId(int inningsId) {
         this.inningsId = inningsId;
@@ -58,19 +69,19 @@ public class Innings {
         this.fallOfWickets = fallOfWickets;
     }
 
-    public ArrayList<WicketsHistory> getWicketsFallenHistory() {
+    public List<WicketsHistory> getWicketsFallenHistory() {
         return wicketsFallenHistory;
     }
 
-    public void setWicketsFallenHistory(ArrayList<WicketsHistory> wicketsFallenHistory) {
+    public void setWicketsFallenHistory(List<WicketsHistory> wicketsFallenHistory) {
         this.wicketsFallenHistory = wicketsFallenHistory;
     }
 
-    public ArrayList<ArrayList<String>> getBallSummary() {
+    public List<List<String>> getBallSummary() {
         return ballSummary;
     }
 
-    public void setBallSummary(ArrayList<ArrayList<String>> ballSummary) {
+    public void setBallSummary(List<List<String>> ballSummary) {
         this.ballSummary = ballSummary;
     }
 

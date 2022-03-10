@@ -1,9 +1,5 @@
 package src.com.cricketgame.models;
 
-import src.com.cricketgame.repo.DB;
-
-import java.sql.SQLException;
-
 public class Match {
     private int matchId = 0;
     private Team teamA = new Team();
@@ -19,6 +15,7 @@ public class Match {
     public Match() {
 
     }
+
     public Match(int matchIdCount) {
         this.matchId = matchIdCount + 1;
     }

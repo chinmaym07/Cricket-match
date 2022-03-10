@@ -3,14 +3,14 @@ package src.com.cricketgame.models;
 public class Toss {
 
     private String tossOutcome, winnerChoseTo, callersChoice;
-    private int tossWinner, whoWillBat, whoWillBowl, whoTookTheCall;
+    private int teamIdWhoWonTheToss, whoWillBat, whoWillBowl, teamIdWhoTookTheCall;
 
-    public int getTossWinner() {
-        return tossWinner;
+    public int getTeamIdWhoWonTheToss() {
+        return teamIdWhoWonTheToss;
     }
 
-    public void setTossWinner(int tossWinner) {
-        this.tossWinner = tossWinner;
+    public void setTeamIdWhoWonTheToss(int teamIdWhoWonTheToss) {
+        this.teamIdWhoWonTheToss = teamIdWhoWonTheToss;
     }
 
     public String getWinnerChoseTo() {
@@ -37,12 +37,12 @@ public class Toss {
         this.tossOutcome = tossOutcome;
     }
 
-    public int getWhoTookTheCall() {
-        return whoTookTheCall;
+    public int getTeamIdWhoTookTheCall() {
+        return teamIdWhoTookTheCall;
     }
 
-    public void setWhoTookTheCall(int whoTookTheCall) {
-        this.whoTookTheCall = whoTookTheCall;
+    public void setTeamIdWhoTookTheCall(int teamIdWhoTookTheCall) {
+        this.teamIdWhoTookTheCall = teamIdWhoTookTheCall;
     }
 
     public int getWhoWillBowl() {
@@ -64,7 +64,7 @@ public class Toss {
     private void decideWhoWillBatOrBowl(int selectFirst, int teamAId, int teamBId) {
         if (selectFirst == 0) {
             setWinnerChoseTo("Bat");
-            if (tossWinner == teamAId) {
+            if (teamIdWhoWonTheToss == teamAId) {
                 setWhoWillBat(teamAId);
                 setWhoWillBowl(teamBId);
             } else {
@@ -73,7 +73,7 @@ public class Toss {
             }
         } else {
             setWinnerChoseTo("Bowl");
-            if (tossWinner == teamAId) {
+            if (teamIdWhoWonTheToss == teamAId) {
                 setWhoWillBat(teamBId);
                 setWhoWillBowl(teamAId);
             } else {
@@ -88,9 +88,9 @@ public class Toss {
         String resp = "";
         if (outcomeEqualToChoice) {
             if (callingTeam.equals(teamA.getTeamName())) //
-                setTossWinner(teamA.getTeamId());
+                setTeamIdWhoWonTheToss(teamA.getTeamId());
             else
-                setTossWinner(teamB.getTeamId());
+                setTeamIdWhoWonTheToss(teamB.getTeamId());
             setTossOutcome(choice);
 
             if (callingTeam.equals(teamA.getTeamName())) {
@@ -106,9 +106,9 @@ public class Toss {
             }
         } else {
             if (callingTeam.equals(teamA.getTeamName()))
-                setTossWinner(teamB.getTeamId());
+                setTeamIdWhoWonTheToss(teamB.getTeamId());
             else
-                setTossWinner(teamA.getTeamId());
+                setTeamIdWhoWonTheToss(teamA.getTeamId());
 
             setTossOutcome(tossOutcome);
 

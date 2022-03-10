@@ -93,7 +93,7 @@ public class DB {
     public static void updateTossDetails(Toss tossObj, int matchId) throws SQLException {
         try {
             Statement st = connection.createStatement();
-            String sql = "insert into toss (matchId, teamIdWhoWonTheToss, teamIdWhoTookTheCall, teamIdWhoWillBat, teamIdWhoWillBowl, tossOutcome, callersChoice) values (" + matchId + "," + tossObj.getTossWinner() + "," + tossObj.getWhoTookTheCall() + "," + tossObj.getWhoWillBat() + "," + tossObj.getWhoWillBowl() + ",'" + tossObj.getTossOutcome() + "','" + tossObj.getCallersChoice() + "')";
+            String sql = "insert into toss (matchId, teamIdWhoWonTheToss, teamIdWhoTookTheCall, teamIdWhoWillBat, teamIdWhoWillBowl, tossOutcome, callersChoice) values (" + matchId + "," + tossObj.getTeamIdWhoWonTheToss() + "," + tossObj.getTeamIdWhoTookTheCall() + "," + tossObj.getWhoWillBat() + "," + tossObj.getWhoWillBowl() + ",'" + tossObj.getTossOutcome() + "','" + tossObj.getCallersChoice() + "')";
             int count = st.executeUpdate(sql);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -159,7 +159,7 @@ public class DB {
             int count = 0;
             for (WicketsHistory currentWicket : wicketsHistories) {
                 Statement st = connection.createStatement();
-                String sql = "Insert into wicketshistory (inningsId,matchId, batsmanId, bowlerId, wicketsFallenInOver, runScored, wicketsDown) values (" + inningsId + "," + matchId + "," + currentWicket.getBatsmanId() + "," + currentWicket.getBowlerId() + "," + currentWicket.getWickerFallenInOver() + "," + currentWicket.getRunScored() + "," + currentWicket.getWicketsDown() + ")";
+                String sql = "Insert into wicketshistory (inningsId,matchId, batsmanId, bowlerId, wicketsFallenInOver, runScored, wicketsDown) values (" + inningsId + "," + matchId + "," + currentWicket.getBatsmanId() + "," + currentWicket.getBowlerId() + "," + currentWicket.getWicketsFallenInOver() + "," + currentWicket.getRunScored() + "," + currentWicket.getWicketsDown() + ")";
                 count += st.executeUpdate(sql);
             }
         } catch (SQLException e) {

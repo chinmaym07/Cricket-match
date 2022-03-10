@@ -1,7 +1,6 @@
 package src.com.cricketgame.test;
 
-import src.com.cricketgame.services.MatchController;
-import src.com.cricketgame.utils.PlayerInfo;
+import src.com.cricketgame.utils.MatchController;
 
 import java.sql.SQLException;
 import java.util.Scanner;

@@ -1,8 +1,9 @@
-package src.com.cricketgame.services;
+package src.com.cricketgame.utils;
 
 import src.com.cricketgame.enums.MatchWinnerEnums;
 import src.com.cricketgame.models.*;
-import src.com.cricketgame.repo.DB;
+import src.com.cricketgame.services.Scoreboard;
+import src.com.cricketgame.utils.BallSummary;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class MatchController {
         Team teamB; // get Team B
         teamB = match.getTeamB(); // get Team B
         teamA = match.getTeamA(); // get Team A
-        ArrayList<ArrayList<String>> ballSummary = new ArrayList<ArrayList<String>>();
+        List<List<String>> ballSummary = new ArrayList<List<String>>();
 
         int currentOver = 0, currentBall = 0, indOfPlayerOnStrike = 0;
         boolean isTeamWhoBatted2ndScoreGreaterThanTeamWhoBatted1st = false;
@@ -74,10 +75,10 @@ public class MatchController {
                         if (currentBall - wideBall - noBall < 5) {
                             cov = currentOver + ((currentBall + 1 - wideBall - noBall) * 0.1);
                         } else cov = currentOver + 1;
-                        wc.setWickerFallenInOver(cov); // over in which the wicket fall
+                        wc.setWicketsFallenInOver(cov); // over in which the wicket fall
                         wc.setWicketsDown(innings.getFallOfWickets()); // number of wickets down at that instant
                         wc.setRunScored(innings.getTotalScore()); // Total score at that instant when wicket fall
-                        ArrayList<WicketsHistory> wicketsArr = innings.getWicketsFallenHistory();
+                        List<WicketsHistory> wicketsArr = innings.getWicketsFallenHistory();
                         wicketsArr.add(wc);
                         innings.setWicketsFallenHistory(wicketsArr);
                         innings.setOversBatted(cov);

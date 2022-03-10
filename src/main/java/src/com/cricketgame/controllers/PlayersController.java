@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import src.com.cricketgame.DTO.ResponseDTOs.MatchesDTO;
 import src.com.cricketgame.DTO.ResponseDTOs.PlayerStatsDTO;
 import src.com.cricketgame.models.Player;
 import src.com.cricketgame.models.PlayerStats;
@@ -28,8 +29,13 @@ public class PlayersController {
     }
 
     @RequestMapping("/players/{matchId}/player-stats/{playerId}")
-    public PlayerStatsDTO getPlayer(@PathVariable int playerId, @PathVariable int matchId) {
+    public PlayerStatsDTO getPlayerStats(@PathVariable int playerId, @PathVariable int matchId) {
         return playerRepositoryImpl.getPlayerStats(playerId,matchId);
     }
+
+    /*@RequestMapping("/matches/{matchId}/player-stats")
+    public MatchesDTO getMatchDetails(@PathVariable int matchId) {
+        return matchService.getMatchDetails(matchId);
+    }*/
 
 }

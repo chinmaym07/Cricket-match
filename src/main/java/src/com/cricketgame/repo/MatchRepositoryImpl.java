@@ -10,6 +10,7 @@ import src.com.cricketgame.DTO.ResponseDTOs.MatchSummaryDTO;
 import src.com.cricketgame.DTO.ResponseDTOs.MatchesDTO;
 import src.com.cricketgame.DTO.ResponseDTOs.TossDTO;
 import src.com.cricketgame.enums.MatchStatus;
+import src.com.cricketgame.enums.MatchWinnerEnums;
 import src.com.cricketgame.interfaces.MatchRepository;
 import src.com.cricketgame.models.*;
 
@@ -103,18 +104,23 @@ public class MatchRepositoryImpl implements MatchRepository {
 
     public void updateTossDetails(Toss toss, int matchId) {
         String sql = "insert into `Toss` (matchId, teamIdWhoWonTheToss, teamIdWhoTookTheCall, teamIdWhoWillBat, teamIdWhoWillBowl, tossOutcome, callersChoice) values (?,?,?,?,?,?,?)";
-        int status = jdbcTemplate.update(sql, matchId, toss.getTossWinner(), toss.getWhoTookTheCall(), toss.getWhoWillBat(), toss.getWhoWillBowl(), toss.getTossOutcome(), toss.getCallersChoice());
+        int status = jdbcTemplate.update(sql, matchId, toss.getTeamIdWhoWonTheToss(), toss.getTeamIdWhoTookTheCall(), toss.getWhoWillBat(), toss.getWhoWillBowl(), toss.getTossOutcome(), toss.getCallersChoice());
         if (status != 0)
             System.out.println("Toss data Updated");
         else
             System.out.println("Toss data not inserted");
     }
 
+    public void updateMatchDetails(Match match) {
+        int teamIdWhoWonMatch = match.getMatchWinner().equals(MatchWinnerEnums.TEAMA) ? match.getTeamA().getTeamId() : match.getTeamB().getTeamId();
+        String sql = "Update matches Set teamABestPlayerId = ? , teamBBestPlayerId = ? , teamIdWhoWonTheMatch = ?, matchStatus = ? where matchId = ? ";
+        int status = jdbcTemplate.update(sql, match.getTeamABestPlayer().getPlayerId(), match.getTeamBBestPlayer().getPlayerId(), teamIdWhoWonMatch, "COMPLETED", match.getMatchId());
+        if (status != 0)
+            System.out.println("Updated Match Details");
+        else
+            System.out.println("No Update occured!");
+    }
 
-    /*public void setupToss() {
-        // Starting the Toss
-        match.startToss();
-    }*/
 
     /*public ArrayList<Match> getMatchesDetailsForATeam(int teamId) {
         connection = DB.getConnection();

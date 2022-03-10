@@ -4,9 +4,17 @@ import java.util.HashMap;
 
 public class PlayerStatsDTO {
     private int runsScored = 0, wicketsTaken = 0, ballsFaced = 0, runsGiven = 0, noOfNoBalls = 0, maidenOvers = 0, noOfWideBalls = 0, ballsBowled = 0, playerId, matchId;
-    private String name, role, teamName;
+    private String name, role, teamName, playingStatus;
     private double averageStrikeRate = 0.0, oversBowled = 0.0, economy = 0.0;
     private HashMap<Integer, Integer> eachRunFreq = new HashMap<Integer, Integer>();
+
+    public String getPlayingStatus() {
+        return playingStatus;
+    }
+
+    public void setPlayingStatus(String playingStatus) {
+        this.playingStatus = playingStatus;
+    }
 
     public String getName() {
         return name;

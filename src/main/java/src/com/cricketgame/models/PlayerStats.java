@@ -9,6 +9,16 @@ public class PlayerStats {
     private double averageStrikeRate = 0.0, oversBowled = 0.0, economy = 0.0;
     private HashMap<Integer, Integer> eachRunFreq = new HashMap<Integer, Integer>();
 
+    private String playingStatus;
+
+    public String getPlayingStatus() {
+        return playingStatus;
+    }
+
+    public void setPlayingStatus(String playingStatus) {
+        this.playingStatus = playingStatus;
+    }
+
     public int getMatchId() {
         return matchId;
     }

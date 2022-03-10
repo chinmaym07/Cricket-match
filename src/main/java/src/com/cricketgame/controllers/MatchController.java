@@ -34,10 +34,12 @@ public class MatchController {
         return matchService.getMatchDetails(matchId);
     }
 
+
     @RequestMapping("/matches/{matchId}/match-summary")
     public MatchSummaryDTO getMatchSummary(@PathVariable int matchId) {
         return matchService.getMatchSummary(matchId);
     }
+
 
 
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import src.com.cricketgame.DTO.RequestDTOs.StartTossDTO;
 import src.com.cricketgame.DTO.ResponseDTOs.MatchesDTO;
 import src.com.cricketgame.interfaces.TossRepository;
+import src.com.cricketgame.models.CurrentPlay;
 import src.com.cricketgame.models.Innings;
 import src.com.cricketgame.models.Team;
 import src.com.cricketgame.models.Toss;
@@ -37,36 +38,64 @@ public class TossRepositoryImpl implements TossRepository {
         toss = new Toss();
         String tossUpdate;
         if (startTossDTO.getCallerName().equals(teamA.getTeamName())) {
-            toss.setWhoTookTheCall(teamA.getTeamId());
+            toss.setTeamIdWhoTookTheCall(teamA.getTeamId());
             tossUpdate = toss.tossUtil(teamA.getTeamName(), teamA, teamB, startTossDTO.getChoice());
         } else {
-            toss.setWhoTookTheCall(teamB.getTeamId());
+            toss.setTeamIdWhoTookTheCall(teamB.getTeamId());
             tossUpdate = toss.tossUtil(teamB.getTeamName(), teamA, teamB, startTossDTO.getChoice());
         }
 
 
-        if (toss.getTossWinner() == teamA.getTeamId()) matchesDTO.setTeamWhoWonToss(teamA.getTeamName());
+        if (toss.getTeamIdWhoWonTheToss() == teamA.getTeamId()) matchesDTO.setTeamWhoWonToss(teamA.getTeamName());
         else matchesDTO.setTeamWhoWonToss(teamB.getTeamName());
         updatePartialTossDetails(toss, matchesDTO.getMatchId());
         return tossUpdate;
     }
 
+    public void updateTossDetailsInMatchTable(Toss toss,int matchId) {
+        String sql1 = "SET foreign_key_checks = 0";
+        String sql2 = "SET foreign_key_checks = 1";
+        jdbcTemplate.execute(sql1);
+        String sql = "Update `Matches` set teamIdWhoWonTheToss = ? where matchId = ?";
+        int status = jdbcTemplate.update(sql,toss.getTeamIdWhoWonTheToss(),matchId);
+        if(status != 0)
+            System.out.println("Updated Toss details in match");
+        else
+            System.out.println("No Update occurred");
+        jdbcTemplate.execute(sql2);
+
+    }
+
+    public void updatePartialInningsDetails(Innings innings) {
+        String sql = "Insert into innings (inningsId, matchId, battingTeamId, bowlingTeamId) values (?,?,?,?)";
+
+        int status = jdbcTemplate.update(sql,innings.getInningsId(),innings.getMatchId(),innings.getBattingTeamId(),innings.getBowlingTeamId());
+        if(status != 0)
+            System.out.println("Updated Partial Innings details");
+        else
+            System.out.println("No Update occurred");
+    }
+
     public void updatePartialTossDetails(Toss toss, int matchId) {
         String sql = "Insert into `Toss` (matchId, teamIdWhoWonTheToss, teamIdWhoTookTheCall, tossOutcome, callersChoice) values (?,?,?,?,?)";
-        int status = jdbcTemplate.update(sql, matchId, toss.getTossWinner(), toss.getWhoTookTheCall(), toss.getTossOutcome(), toss.getCallersChoice());
+        int status = jdbcTemplate.update(sql, matchId, toss.getTeamIdWhoWonTheToss(), toss.getTeamIdWhoTookTheCall(), toss.getTossOutcome(), toss.getCallersChoice());
         if(status != 0)
             System.out.println("Updated Partial toss details");
         else
-            System.out.println("No Update occured");
+            System.out.println("No Update occurred");
     }
 
     public void updateCompleteTossDetails(Toss toss, int matchId) {
+        String sql1 = "SET foreign_key_checks = 0";
+        String sql2 = "SET foreign_key_checks = 1";
+        jdbcTemplate.execute(sql1);
         String sql = "Update `Toss` t set teamIdWhoWillBat = ? , teamIdWhoWillBowl = ? where matchId = ?";
         int status = jdbcTemplate.update(sql, toss.getWhoWillBat(),toss.getWhoWillBowl(),matchId);
         if(status != 0)
             System.out.println("Updated Complete toss details");
         else
-            System.out.println("No Update occured");
+            System.out.println("No Update occurred");
+        jdbcTemplate.execute(sql2);
     }
 
     public String makeChoice(int matchId, String winnerChoice, MatchesDTO matchesDTO) {
@@ -78,10 +107,9 @@ public class TossRepositoryImpl implements TossRepository {
         Toss toss= getTossDetails(matchId);
         int teamAId = matchesDTO.getTeamAId();
         int teamBId = matchesDTO.getTeamBId();
-
+        toss.setWinnerChoseTo(winnerChoice);
         if(winnerChoice.equals("Bat")) {
-            if(toss.getTossWinner() == teamAId)
-            {
+            if(toss.getTeamIdWhoWonTheToss() == teamAId) {
                 firstInnings.setBattingTeamId(teamAId);
                 firstInnings.setBowlingTeamId(teamBId);
                 secondInnings.setBattingTeamId(teamBId);
@@ -94,7 +122,7 @@ public class TossRepositoryImpl implements TossRepository {
             }
         } else
         {
-            if(toss.getTossWinner() == teamAId) {
+            if(toss.getTeamIdWhoWonTheToss() == teamAId) {
                 firstInnings.setBattingTeamId(teamBId);
                 firstInnings.setBowlingTeamId(teamAId);
                 secondInnings.setBattingTeamId(teamAId);
@@ -106,12 +134,25 @@ public class TossRepositoryImpl implements TossRepository {
                 secondInnings.setBowlingTeamId(teamAId);
             }
         }
-
+        if(firstInnings.getBattingTeamId() == teamAId)
+        {
+            toss.setWhoWillBat(teamAId);
+            toss.setWhoWillBowl(teamBId);
+        } else {
+            toss.setWhoWillBat(teamBId);
+            toss.setWhoWillBowl(teamAId);
+        }
         firstInnings.setMatchId(matchesDTO.getMatchId());
-        /*match.setFirstInnings(firstInnings);
-        secondInnings.setMatchId(match.getMatchId());
-        match.setSecondInnings(secondInnings);
-        */
+        matchesDTO.setFirstInnings(firstInnings);
+        secondInnings.setMatchId(matchesDTO.getMatchId());
+        matchesDTO.setSecondInnings(secondInnings);
+        updateCompleteTossDetails(toss,matchId);
+        updateTossDetailsInMatchTable(toss,matchId);
+        updatePartialInningsDetails(firstInnings);
+        updatePartialInningsDetails(secondInnings);
+
+
+
 
         return "Toss Completed";
     }

@@ -5,7 +5,15 @@ import src.com.cricketgame.models.Innings;
 public class InningsDTO {
     private int inningsId, totalScore, wicketsFallen, extraRuns, noOfNoBalls,noOfWideBalls;
     private double oversBatted;
-    private String battingTeamName, bowlingTeamName;
+    private String battingTeamName, bowlingTeamName, inningsStatus;
+
+    public String getInningsStatus() {
+        return inningsStatus;
+    }
+
+    public void setInningsStatus(String inningsStatus) {
+        this.inningsStatus = inningsStatus;
+    }
 
     public int getInningsId() {
         return inningsId;

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import src.com.cricketgame.DTO.RequestDTOs.NewMatchDTO;
 import src.com.cricketgame.DTO.ResponseDTOs.MatchSummaryDTO;
 import src.com.cricketgame.DTO.ResponseDTOs.MatchesDTO;
+import src.com.cricketgame.models.CurrentPlay;
 import src.com.cricketgame.models.Innings;
 import src.com.cricketgame.models.Team;
 import src.com.cricketgame.models.Toss;
@@ -37,7 +38,7 @@ public class MatchService {
             matchesDTO.setTeamBName(teamB.getTeamName());
             if (matchesDTO.getTeamIdWhoWonTheMatch() == teamA.getTeamId())
                 matchesDTO.setMatchResult(teamA.getTeamName() + " won the match");
-            else
+            else if (matchesDTO.getTeamIdWhoWonTheMatch() == teamB.getTeamId())
                 matchesDTO.setMatchResult(teamB.getTeamName() + " won the match");
         }
 
@@ -55,7 +56,7 @@ public class MatchService {
             matchesDTO.setTeamBName(teamB.getTeamName());
             if (matchesDTO.getTeamIdWhoWonTheMatch() == teamA.getTeamId())
                 matchesDTO.setMatchResult(teamA.getTeamName() + " won the match");
-            else
+            else if (matchesDTO.getTeamIdWhoWonTheMatch() == teamB.getTeamId())
                 matchesDTO.setMatchResult(teamB.getTeamName() + " won the match");
         }
 
@@ -68,9 +69,15 @@ public class MatchService {
         Team teamB = teamRepository.getSpecificTeamById(matchesDTO.getTeamBId());
         matchesDTO.setTeamAName(teamA.getTeamName());
         matchesDTO.setTeamBName(teamB.getTeamName());
+
+        if(matchesDTO.getTeamIdWhoWonTheToss() == teamA.getTeamId())
+            matchesDTO.setTeamWhoWonToss(teamA.getTeamName());
+        else if (matchesDTO.getTeamIdWhoWonTheToss() == teamB.getTeamId())
+            matchesDTO.setTeamWhoWonToss(teamB.getTeamName());
+
         if (matchesDTO.getTeamIdWhoWonTheMatch() == teamA.getTeamId())
             matchesDTO.setMatchResult(teamA.getTeamName() + " won the match");
-        else
+        else if (matchesDTO.getTeamIdWhoWonTheMatch() == teamB.getTeamId())
             matchesDTO.setMatchResult(teamB.getTeamName() + " won the match");
         return matchesDTO;
     }
@@ -83,7 +90,6 @@ public class MatchService {
         Team teamB = teamRepository.getSpecificTeamByName(nameB);
         teamB.setPlayersArr(playerRepository.getTeamPlayers(teamB.getTeamId()));
         return matchRepository.startNewMatch(teamA, teamB, newMatchDTO.getMatchOvers());
-
     }
 
     public MatchSummaryDTO getMatchSummary(int matchId) {
@@ -93,9 +99,6 @@ public class MatchService {
         Innings secondInnings = inningsRepository.getMatchInnings(matchId).get(1);
 
         MatchSummaryDTO matchSummaryDTO = matchRepository.getMatchSummary(matchesDTO,firstInnings, secondInnings, toss);
-
-
-
         return matchSummaryDTO;
     }
 }
