@@ -5,6 +5,7 @@ import src.com.cricketgame.models.Player;
 import src.com.cricketgame.models.PlayerStats;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PlayerRepository {
 
@@ -14,7 +15,8 @@ public interface PlayerRepository {
 
     PlayerStatsDTO getPlayerStats(int playerId, int matchId);
 
-    void updatePlayerStats(int matchId, PlayerStats playerStats);
-    void insertPlayerStats(int matchId, PlayerStats playerStats);
+    void updatePlayerStats(int matchId, PlayerStatsDTO playerStatsDTO);
+
+    void insertPlayerStats(int matchId, PlayerStatsDTO playerStats);
 
 }

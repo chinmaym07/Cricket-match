@@ -102,5 +102,6 @@ public class InningsDTO {
         this.noOfNoBalls = innings.getNoOfNoBalls();
         this.noOfWideBalls = innings.getNoOfWideBalls();
         this.oversBatted = innings.getOversBatted();
+        this.inningsStatus = innings.getInningsStatus();
     }
 }

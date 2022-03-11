@@ -62,7 +62,8 @@ public class TossDTO {
             setTeamWhoTookTheCall(teamAName);
         else if (toss.getTeamIdWhoWonTheToss() == teamBId)
             setTeamWhoTookTheCall(teamBName);
-        if (toss.getWhoWillBat() == teamAId) {
+
+        if (toss.getTeamIdWhoWillBat() == teamAId) {
             setTeamWhoWillBat(teamAName);
             setTeamWhoWillBowl(teamBName);
         } else {

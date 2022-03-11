@@ -1,9 +1,9 @@
 package src.com.cricketgame.utils;
 
+import src.com.cricketgame.DTO.ResponseDTOs.EachRunfreqDTO;
 import src.com.cricketgame.enums.MatchWinnerEnums;
 import src.com.cricketgame.models.*;
 import src.com.cricketgame.services.Scoreboard;
-import src.com.cricketgame.utils.BallSummary;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,6 +13,28 @@ import java.util.List;
 public class MatchController {
     private Match match;
 
+    private void increaseRunFreq(EachRunfreqDTO eachRunfreqDTO, int ballOutcome) {
+        switch (ballOutcome) {
+            case 1:
+                eachRunfreqDTO.setOnes(eachRunfreqDTO.getOnes()+1);
+                break;
+            case 2:
+                eachRunfreqDTO.setTwos(eachRunfreqDTO.getTwos()+1);
+                break;
+            case 3:
+                eachRunfreqDTO.setThrees(eachRunfreqDTO.getThrees()+1);
+                break;
+            case 4:
+                eachRunfreqDTO.setFours(eachRunfreqDTO.getFours()+1);
+                break;
+            case 5:
+                eachRunfreqDTO.setFives(eachRunfreqDTO.getFives()+1);
+                break;
+            case 6:
+                eachRunfreqDTO.setSixes(eachRunfreqDTO.getSixes()+1);
+                break;
+        }
+    }
     private Player startBowling(List<Player> battingTeamArr, List<Player> bowlingTeamArr, boolean isSecondInnings, Innings innings) {
         // This function will return the best player who scored most runs.
         Team teamA; // get Team A
@@ -115,12 +137,11 @@ public class MatchController {
                         currentBatsmanStats.setRunsScored(currentBatsmanStats.getRunsScored() + ballOutcome);
                         currentBowlerStats.setBallsBowled(currentBowlerStats.getBallsBowled() + 1);
                         currentBowlerStats.setOversBowled((double) (currentBowlerStats.getBallsBowled() / 6) + ((currentBowlerStats.getBallsBowled()) % 6) * 0.1);
-                        HashMap<Integer, Integer> currentBatsmanEachRunFreq = currentBatsmanStats.getEachRunFreq();
-                        if (currentBatsmanEachRunFreq.containsKey(ballOutcome)) {
-                            currentBatsmanEachRunFreq.put(ballOutcome, currentBatsmanEachRunFreq.get(ballOutcome) + 1);
-                        } else {
-                            currentBatsmanEachRunFreq.put(ballOutcome, 1);
-                        }
+                        EachRunfreqDTO currentBatsmanEachRunFreq = currentBatsmanStats.getEachRunFreq();
+
+                        increaseRunFreq(currentBatsmanEachRunFreq,ballOutcome);
+
+
                         currentBatsmanStats.setEachRunFreq(currentBatsmanEachRunFreq);
                         currentBowlerStats.setRunsGiven(currentBowlerStats.getRunsGiven() + ballOutcome);
                         if (currentBall - wideBall - noBall < 5) {

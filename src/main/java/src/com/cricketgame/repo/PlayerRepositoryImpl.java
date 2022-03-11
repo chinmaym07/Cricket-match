@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import src.com.cricketgame.DTO.ResponseDTOs.PlayerStatsDTO;
 import src.com.cricketgame.interfaces.PlayerRepository;
 import src.com.cricketgame.models.Player;
-import src.com.cricketgame.models.PlayerStats;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,7 +20,7 @@ public class PlayerRepositoryImpl implements PlayerRepository {
     @Autowired
     JdbcTemplate jdbcTemplate = new JdbcTemplate();
 
-    private final RowMapper<Player> playerRowMapper = new BeanPropertyRowMapper<Player>(){
+    private final RowMapper<Player> playerRowMapper = new BeanPropertyRowMapper<Player>() {
         public Player mapRow(ResultSet rs, int rowNum) throws SQLException {
             Player player = new Player();
             player.setPlayerId(rs.getInt("playerId"));
@@ -63,31 +62,27 @@ public class PlayerRepositoryImpl implements PlayerRepository {
         return jdbcTemplate.queryForObject(sql, playerRowMapper, playerId);
     }
 
-    public PlayerStatsDTO getPlayerStats(int playerId, int matchId)  {
+    public PlayerStatsDTO getPlayerStats(int playerId, int matchId) {
+        PlayerStatsDTO playerStatsDTO = null;
         try {
             String sql = "Select * from `Player` p inner join `Playerstats` pst on p.playerId = pst.playerId inner join `Teamplayer` tmp on tmp.playerId = p.playerId inner join `Team` t on t.teamId = tmp.teamId where p.playerId = ? and pst.matchId= ? ";
-            PlayerStatsDTO playerStatsDTO = jdbcTemplate.queryForObject(sql, playerStatsDTORowMapper, playerId, matchId);
-            return playerStatsDTO;
+            playerStatsDTO = jdbcTemplate.queryForObject(sql, playerStatsDTORowMapper, playerId, matchId);
         } catch (EmptyResultDataAccessException e) {
-            return null;
         }
+        return playerStatsDTO;
     }
 
-    public void updatePlayerStats(int matchId, PlayerStats playerStats) {
+    public void updatePlayerStats(int matchId, PlayerStatsDTO playerStatsDTO) {
         String sql = "Update `Playerstats` set runsScored = ? , runsGiven = ? , wicketsTaken = ? , ballsFaced = ? , noOfNoBalls = ?, noOfWideBalls = ?, maidenOvers = ?, ballsBowled = ?, oversBowled = ? , averageStrikeRate = ?, economy = ?, playingStatus = ? where matchId = ? and playerId = ?";
-        int status = jdbcTemplate.update(sql, playerStats.getRunsScored(), playerStats.getRunsGiven(), playerStats.getWicketsTaken(), playerStats.getBallsFaced(), playerStats.getNoOfNoBalls(), playerStats.getNoOfWideBalls(), playerStats.getMaidenOvers(), playerStats.getBallsBowled(), playerStats.getOversBowled(), playerStats.getAverageStrikeRate(), playerStats.getEconomy(), playerStats.getPlayingStatus(), matchId, playerStats.getPlayerId());
-        if (status != 0)
-            System.out.println("Updated Player Stats!");
-        else
-            System.out.println("No update occured!");
+        int status = jdbcTemplate.update(sql, playerStatsDTO.getRunsScored(), playerStatsDTO.getRunsGiven(), playerStatsDTO.getWicketsTaken(), playerStatsDTO.getBallsFaced(), playerStatsDTO.getNoOfNoBalls(), playerStatsDTO.getNoOfWideBalls(), playerStatsDTO.getMaidenOvers(), playerStatsDTO.getBallsBowled(), playerStatsDTO.getOversBowled(), playerStatsDTO.getAverageStrikeRate(), playerStatsDTO.getEconomy(), playerStatsDTO.getPlayingStatus(), matchId, playerStatsDTO.getPlayerId());
+        if (status != 0) System.out.println("Updated Player Stats!");
+        else System.out.println("No Player Stats update occured!");
     }
 
-    public void insertPlayerStats(int matchId, PlayerStats playerStats) {
+    public void insertPlayerStats(int matchId, PlayerStatsDTO playerStats) {
         String sql = "Insert into `Playerstats` (matchId, playerId, runsScored, runsGiven, wicketsTaken, ballsFaced, noOfNoBalls, noOfWideBalls, maidenOvers, ballsBowled, oversBowled, averageStrikeRate, economy, playingStatus) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         int status = jdbcTemplate.update(sql, matchId, playerStats.getPlayerId(), playerStats.getRunsScored(), playerStats.getRunsGiven(), playerStats.getWicketsTaken(), playerStats.getBallsFaced(), playerStats.getNoOfNoBalls(), playerStats.getNoOfWideBalls(), playerStats.getMaidenOvers(), playerStats.getBallsBowled(), playerStats.getOversBowled(), playerStats.getAverageStrikeRate(), playerStats.getEconomy(), playerStats.getPlayingStatus());
-        if (status != 0)
-            System.out.println("Updated Player Stats!");
-        else
-            System.out.println("No update occured!");
+        if (status != 0) System.out.println("Player Stats inserted!");
+        else System.out.println("No Player stats insert occured!");
     }
 }

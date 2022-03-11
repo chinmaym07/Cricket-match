@@ -93,7 +93,7 @@ public class DB {
     public static void updateTossDetails(Toss tossObj, int matchId) throws SQLException {
         try {
             Statement st = connection.createStatement();
-            String sql = "insert into toss (matchId, teamIdWhoWonTheToss, teamIdWhoTookTheCall, teamIdWhoWillBat, teamIdWhoWillBowl, tossOutcome, callersChoice) values (" + matchId + "," + tossObj.getTeamIdWhoWonTheToss() + "," + tossObj.getTeamIdWhoTookTheCall() + "," + tossObj.getWhoWillBat() + "," + tossObj.getWhoWillBowl() + ",'" + tossObj.getTossOutcome() + "','" + tossObj.getCallersChoice() + "')";
+            String sql = "insert into toss (matchId, teamIdWhoWonTheToss, teamIdWhoTookTheCall, teamIdWhoWillBat, teamIdWhoWillBowl, tossOutcome, callersChoice) values (" + matchId + "," + tossObj.getTeamIdWhoWonTheToss() + "," + tossObj.getTeamIdWhoTookTheCall() + "," + tossObj.getTeamIdWhoWillBat() + "," + tossObj.getTeamIdWhoWillBowl() + ",'" + tossObj.getTossOutcome() + "','" + tossObj.getCallersChoice() + "')";
             int count = st.executeUpdate(sql);
         } catch (SQLException e) {
             e.printStackTrace();

@@ -3,7 +3,7 @@ package src.com.cricketgame.models;
 public class Toss {
 
     private String tossOutcome, winnerChoseTo, callersChoice;
-    private int teamIdWhoWonTheToss, whoWillBat, whoWillBowl, teamIdWhoTookTheCall;
+    private int teamIdWhoWonTheToss, teamIdWhoWillBat, teamIdWhoWillBowl, teamIdWhoTookTheCall;
 
     public int getTeamIdWhoWonTheToss() {
         return teamIdWhoWonTheToss;
@@ -45,40 +45,40 @@ public class Toss {
         this.teamIdWhoTookTheCall = teamIdWhoTookTheCall;
     }
 
-    public int getWhoWillBowl() {
-        return whoWillBowl;
+    public int getTeamIdWhoWillBat() {
+        return teamIdWhoWillBat;
     }
 
-    public void setWhoWillBowl(int getWhoWillBowl) {
-        this.whoWillBowl = getWhoWillBowl;
+    public int getTeamIdWhoWillBowl() {
+        return teamIdWhoWillBowl;
     }
 
-    public int getWhoWillBat() {
-        return whoWillBat;
+    public void setTeamIdWhoWillBat(int teamIdWhoWillBat) {
+        this.teamIdWhoWillBat = teamIdWhoWillBat;
     }
 
-    public void setWhoWillBat(int whoWillBat) {
-        this.whoWillBat = whoWillBat;
+    public void setTeamIdWhoWillBowl(int teamIdWhoWillBowl) {
+        this.teamIdWhoWillBowl = teamIdWhoWillBowl;
     }
 
     private void decideWhoWillBatOrBowl(int selectFirst, int teamAId, int teamBId) {
         if (selectFirst == 0) {
             setWinnerChoseTo("Bat");
             if (teamIdWhoWonTheToss == teamAId) {
-                setWhoWillBat(teamAId);
-                setWhoWillBowl(teamBId);
+                setTeamIdWhoWillBat(teamAId);
+                setTeamIdWhoWillBowl(teamBId);
             } else {
-                setWhoWillBat(teamBId);
-                setWhoWillBowl(teamAId);
+                setTeamIdWhoWillBat(teamBId);
+                setTeamIdWhoWillBowl(teamAId);
             }
         } else {
             setWinnerChoseTo("Bowl");
             if (teamIdWhoWonTheToss == teamAId) {
-                setWhoWillBat(teamBId);
-                setWhoWillBowl(teamAId);
+                setTeamIdWhoWillBat(teamBId);
+                setTeamIdWhoWillBowl(teamAId);
             } else {
-                setWhoWillBat(teamAId);
-                setWhoWillBowl(teamBId);
+                setTeamIdWhoWillBat(teamAId);
+                setTeamIdWhoWillBowl(teamBId);
             }
         }
     }

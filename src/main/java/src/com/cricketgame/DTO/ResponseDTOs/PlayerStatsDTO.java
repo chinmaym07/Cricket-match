@@ -6,7 +6,7 @@ public class PlayerStatsDTO {
     private int runsScored = 0, wicketsTaken = 0, ballsFaced = 0, runsGiven = 0, noOfNoBalls = 0, maidenOvers = 0, noOfWideBalls = 0, ballsBowled = 0, playerId, matchId;
     private String name, role, teamName, playingStatus;
     private double averageStrikeRate = 0.0, oversBowled = 0.0, economy = 0.0;
-    private HashMap<Integer, Integer> eachRunFreq = new HashMap<Integer, Integer>();
+    private EachRunfreqDTO eachRunFreq;
 
     public String getPlayingStatus() {
         return playingStatus;
@@ -145,11 +145,11 @@ public class PlayerStatsDTO {
         this.economy = economy;
     }
 
-    public HashMap<Integer, Integer> getEachRunFreq() {
+    public EachRunfreqDTO getEachRunFreq() {
         return eachRunFreq;
     }
 
-    public void setEachRunFreq(HashMap<Integer, Integer> eachRunFreq) {
+    public void setEachRunFreq(EachRunfreqDTO eachRunFreq) {
         this.eachRunFreq = eachRunFreq;
     }
 }

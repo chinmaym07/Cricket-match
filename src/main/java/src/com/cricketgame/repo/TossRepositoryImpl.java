@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import src.com.cricketgame.DTO.RequestDTOs.StartTossDTO;
 import src.com.cricketgame.DTO.ResponseDTOs.MatchesDTO;
 import src.com.cricketgame.interfaces.TossRepository;
-import src.com.cricketgame.models.CurrentPlay;
 import src.com.cricketgame.models.Innings;
 import src.com.cricketgame.models.Team;
 import src.com.cricketgame.models.Toss;
@@ -61,7 +60,7 @@ public class TossRepositoryImpl implements TossRepository {
         if(status != 0)
             System.out.println("Updated Toss details in match");
         else
-            System.out.println("No Update occurred");
+            System.out.println("No Toss details Updated");
         jdbcTemplate.execute(sql2);
 
     }
@@ -73,16 +72,20 @@ public class TossRepositoryImpl implements TossRepository {
         if(status != 0)
             System.out.println("Updated Partial Innings details");
         else
-            System.out.println("No Update occurred");
+            System.out.println("No Partial Innings Update occurred");
     }
 
     public void updatePartialTossDetails(Toss toss, int matchId) {
+        String sql1 = "SET foreign_key_checks = 0";
+        String sql2 = "SET foreign_key_checks = 1";
+        jdbcTemplate.execute(sql1);
         String sql = "Insert into `Toss` (matchId, teamIdWhoWonTheToss, teamIdWhoTookTheCall, tossOutcome, callersChoice) values (?,?,?,?,?)";
         int status = jdbcTemplate.update(sql, matchId, toss.getTeamIdWhoWonTheToss(), toss.getTeamIdWhoTookTheCall(), toss.getTossOutcome(), toss.getCallersChoice());
         if(status != 0)
             System.out.println("Updated Partial toss details");
         else
-            System.out.println("No Update occurred");
+            System.out.println("No Partial toss Update occurred");
+        jdbcTemplate.execute(sql2);
     }
 
     public void updateCompleteTossDetails(Toss toss, int matchId) {
@@ -90,11 +93,11 @@ public class TossRepositoryImpl implements TossRepository {
         String sql2 = "SET foreign_key_checks = 1";
         jdbcTemplate.execute(sql1);
         String sql = "Update `Toss` t set teamIdWhoWillBat = ? , teamIdWhoWillBowl = ? where matchId = ?";
-        int status = jdbcTemplate.update(sql, toss.getWhoWillBat(),toss.getWhoWillBowl(),matchId);
+        int status = jdbcTemplate.update(sql, toss.getTeamIdWhoWillBat(),toss.getTeamIdWhoWillBowl(),matchId);
         if(status != 0)
             System.out.println("Updated Complete toss details");
         else
-            System.out.println("No Update occurred");
+            System.out.println("No Complete toss Update occurred");
         jdbcTemplate.execute(sql2);
     }
 
@@ -136,11 +139,11 @@ public class TossRepositoryImpl implements TossRepository {
         }
         if(firstInnings.getBattingTeamId() == teamAId)
         {
-            toss.setWhoWillBat(teamAId);
-            toss.setWhoWillBowl(teamBId);
+            toss.setTeamIdWhoWillBat(teamAId);
+            toss.setTeamIdWhoWillBowl(teamBId);
         } else {
-            toss.setWhoWillBat(teamBId);
-            toss.setWhoWillBowl(teamAId);
+            toss.setTeamIdWhoWillBat(teamBId);
+            toss.setTeamIdWhoWillBowl(teamAId);
         }
         firstInnings.setMatchId(matchesDTO.getMatchId());
         matchesDTO.setFirstInnings(firstInnings);

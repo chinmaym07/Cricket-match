@@ -23,7 +23,7 @@ public interface MatchRepository {
 
     void updateTossDetails(Toss toss, int matchId);
 
-    void updateMatchDetails(Match match);
+    void updateMatchDetails(MatchesDTO matchesDTO);
 
     MatchSummaryDTO getMatchSummary(MatchesDTO matchesDTO, Innings innings1, Innings innings2, Toss toss);
 }
