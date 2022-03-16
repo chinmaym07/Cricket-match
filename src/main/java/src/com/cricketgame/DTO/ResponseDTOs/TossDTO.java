@@ -3,7 +3,12 @@ package src.com.cricketgame.DTO.ResponseDTOs;
 import src.com.cricketgame.models.Toss;
 
 public class TossDTO {
-    private String teamWhoWonTheToss,teamWhoTookTheCall, teamWhoWillBat, teamWhoWillBowl, tossOutcome, callersChoice;
+    private String teamWhoWonTheToss;
+    private String teamWhoTookTheCall;
+    private String teamWhoWillBat;
+    private String teamWhoWillBowl;
+    private String tossOutcome;
+    private String callersChoice;
 
     public String getTeamWhoWonTheToss() {
         return teamWhoWonTheToss;
@@ -53,7 +58,7 @@ public class TossDTO {
         this.callersChoice = callersChoice;
     }
 
-    public void convertTossToTossDTO(Toss toss, int teamAId,int teamBId, String teamAName,String teamBName) {
+    public void convertTossToTossDTO(Toss toss, int teamAId, int teamBId, String teamAName, String teamBName) {
         if (toss.getTeamIdWhoWonTheToss() == teamAId)
             setTeamWhoWonTheToss(teamAName);
         else if (toss.getTeamIdWhoWonTheToss() == teamBId)

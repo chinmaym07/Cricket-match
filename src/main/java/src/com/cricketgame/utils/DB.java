@@ -1,6 +1,5 @@
-package src.com.cricketgame.repo;
+package src.com.cricketgame.utils;
 
-import org.springframework.stereotype.Repository;
 import src.com.cricketgame.enums.MatchWinnerEnums;
 import src.com.cricketgame.models.*;
 
@@ -18,6 +17,7 @@ public class DB {
     public DB() throws ClassNotFoundException {
         setupConnection();
     }
+
     public static Connection getConnection() {
         return connection;
     }
@@ -146,7 +146,7 @@ public class DB {
             int count = 0;
 
             Statement st = connection.createStatement();
-            String sql = "Insert into innings (inningsId, matchId, battingTeamId, bowlingTeamId, totalScore, wicketsFallen, extraRuns, noOfNoBalls, noOfWideBalls, oversBatted) values (" + innings.getInningsId() + "," + matchId + "," + innings.getBattingTeamId() + "," + innings.getBowlingTeamId() + "," + innings.getTotalScore() + "," + innings.getFallOfWickets() + "," + innings.getExtraRuns() + "," + innings.getNoOfNoBalls() + "," + innings.getNoOfWideBalls() + "," + innings.getOversBatted() + ")";
+            String sql = "Insert into innings (inningsId, matchId, battingTeamId, bowlingTeamId, totalScore, wicketsFallen, extraRuns, noOfNoBalls, noOfWideBalls, oversBatted) values (" + innings.getInningsId() + "," + matchId + "," + innings.getBattingTeamId() + "," + innings.getBowlingTeamId() + "," + innings.getTotalScore() + "," + innings.getWicketsFallen() + "," + innings.getExtraRuns() + "," + innings.getNoOfNoBalls() + "," + innings.getNoOfWideBalls() + "," + innings.getOversBatted() + ")";
             count = st.executeUpdate(sql);
         } catch (SQLException e) {
             e.printStackTrace();

@@ -3,7 +3,10 @@ package src.com.cricketgame.utils;
 import java.util.List;
 
 public class BallSummary {
-    private int matchId,ballId,inningsId;
+    private int matchId;
+    private int ballId;
+    private int inningsId;
+    private int currentOver;
     private String outcomeOnBall;
 
     public int getMatchId() {
@@ -36,6 +39,14 @@ public class BallSummary {
 
     public void setOutcomeOnBall(String outcomeOnBall) {
         this.outcomeOnBall = outcomeOnBall;
+    }
+
+    public int getCurrentOver() {
+        return currentOver;
+    }
+
+    public void setCurrentOver(int currentOver) {
+        this.currentOver = currentOver;
     }
 
     public static void printBallSummary(List<List<String>> ballSummary) {

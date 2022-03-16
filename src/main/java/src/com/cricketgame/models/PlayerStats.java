@@ -7,8 +7,20 @@ import java.util.HashMap;
 
 public class PlayerStats {
 
-    private int runsScored = 0, wicketsTaken = 0, ballsFaced = 0, runsGiven = 0, noOfNoBalls = 0, maidenOvers = 0, noOfWideBalls = 0, ballsBowled = 0,playerId,matchId;
-    private double averageStrikeRate = 0.0, oversBowled = 0.0, economy = 0.0;
+    private int playerId;
+    private int matchId;
+    private int runsScored = 0;
+    private int wicketsTaken = 0;
+    private int ballsFaced = 0;
+    private int runsGiven = 0;
+    private int noOfNoBalls = 0;
+    private int maidenOvers = 0;
+    private int noOfWideBalls = 0;
+    private int ballsBowled = 0;
+
+    private double averageStrikeRate = 0.0;
+    private double oversBowled = 0.0;
+    private double economy = 0.0;
     private EachRunfreqDTO eachRunFreq;
     private String playingStatus;
 
@@ -133,27 +145,7 @@ public class PlayerStats {
     }
 
     public int getNumberOfRunsFreq(int run) {
-        int frequency = 0;
-        switch (run) {
-            case 1:
-                frequency = eachRunFreq.getOnes();
-                break;
-            case 2:
-                frequency = eachRunFreq.getTwos();
-                break;
-            case 3:
-                frequency = eachRunFreq.getThrees();
-                break;
-            case 4:
-                frequency = eachRunFreq.getFours();
-                break;
-            case 5:
-                frequency = eachRunFreq.getFives();
-                break;
-            case 6:
-                frequency = eachRunFreq.getSixes();
-                break;
-        }
-        return frequency;
+        HashMap<Integer, Integer> runsFreq = eachRunFreq.getEachRunFreq();
+        return runsFreq.get(run);
     }
 }

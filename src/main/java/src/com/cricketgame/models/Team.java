@@ -8,7 +8,8 @@ import java.util.List;
 
 public class Team {
     private int teamId;
-    private String teamName, captainName;
+    private String teamName;
+    private String captainName;
     @JsonIgnore
     private List<Player> playersArr = new ArrayList<Player>();
 
@@ -39,6 +40,7 @@ public class Team {
     public void setTeamName(String teamName) {
         this.teamName = teamName;
     }
+
     @JsonIgnore
     @JsonProperty("players")
     public List<Player> getPlayersArr() {

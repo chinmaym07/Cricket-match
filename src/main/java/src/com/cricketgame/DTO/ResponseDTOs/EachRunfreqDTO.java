@@ -1,7 +1,11 @@
 package src.com.cricketgame.DTO.ResponseDTOs;
 
+import java.util.HashMap;
+
 public class EachRunfreqDTO {
-    private int playerId,matchId,ones=0,twos=0,threes=0,fours=0,fives=0,sixes = 0;
+    private int playerId;
+    private int matchId;
+    private HashMap<Integer, Integer> eachRunFreq = new HashMap<Integer, Integer>();
 
     public int getPlayerId() {
         return playerId;
@@ -19,51 +23,26 @@ public class EachRunfreqDTO {
         this.matchId = matchId;
     }
 
-    public int getOnes() {
-        return ones;
+    public HashMap<Integer, Integer> getEachRunFreq() {
+        return eachRunFreq;
     }
 
-    public void setOnes(int ones) {
-        this.ones = ones;
+    public void setEachRunFreq(HashMap<Integer, Integer> eachRunFreq) {
+        this.eachRunFreq = eachRunFreq;
     }
 
-    public int getTwos() {
-        return twos;
+    public int getRunFreq(int run) {
+        if (eachRunFreq.containsKey(run))
+            return eachRunFreq.get(run);
+        else
+            return 0;
+
     }
 
-    public void setTwos(int twos) {
-        this.twos = twos;
-    }
-
-    public int getThrees() {
-        return threes;
-    }
-
-    public void setThrees(int threes) {
-        this.threes = threes;
-    }
-
-    public int getFours() {
-        return fours;
-    }
-
-    public void setFours(int fours) {
-        this.fours = fours;
-    }
-
-    public int getFives() {
-        return fives;
-    }
-
-    public void setFives(int fives) {
-        this.fives = fives;
-    }
-
-    public int getSixes() {
-        return sixes;
-    }
-
-    public void setSixes(int sixes) {
-        this.sixes = sixes;
+    public void increaseRunFreq(int run) {
+        if (eachRunFreq.containsKey(run))
+            eachRunFreq.put(run, eachRunFreq.get(run) + 1);
+        else
+            eachRunFreq.put(run, 1);
     }
 }

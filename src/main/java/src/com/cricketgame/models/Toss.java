@@ -2,8 +2,13 @@ package src.com.cricketgame.models;
 
 public class Toss {
 
-    private String tossOutcome, winnerChoseTo, callersChoice;
-    private int teamIdWhoWonTheToss, teamIdWhoWillBat, teamIdWhoWillBowl, teamIdWhoTookTheCall;
+    private String tossOutcome;
+    private String winnerChoseTo;
+    private String callersChoice;
+    private int teamIdWhoWonTheToss;
+    private int teamIdWhoWillBat;
+    private int teamIdWhoWillBowl;
+    private int teamIdWhoTookTheCall;
 
     public int getTeamIdWhoWonTheToss() {
         return teamIdWhoWonTheToss;
@@ -119,9 +124,9 @@ public class Toss {
                     resp = "So Head's is the call & it's Tail, " + teamB.getTeamName() + " have won the toss";
             } else {
                 if (tossOutcome.equals("Head"))
-                    resp = "So Tail's is the call & it's Head, "+ teamA.getTeamName() + " have won the toss";
+                    resp = "So Tail's is the call & it's Head, " + teamA.getTeamName() + " have won the toss";
                 else
-                    resp = "So Head's is the call & it's Tail, "+ teamA.getTeamName() + " have won the toss";
+                    resp = "So Head's is the call & it's Tail, " + teamA.getTeamName() + " have won the toss";
             }
         }
         resp += "\nNow Make a choice between Bat or Bowl";

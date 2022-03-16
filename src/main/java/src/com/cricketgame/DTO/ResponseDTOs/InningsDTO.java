@@ -3,7 +3,12 @@ package src.com.cricketgame.DTO.ResponseDTOs;
 import src.com.cricketgame.models.Innings;
 
 public class InningsDTO {
-    private int inningsId, totalScore, wicketsFallen, extraRuns, noOfNoBalls,noOfWideBalls;
+    private int inningsId;
+    private int totalScore;
+    private int wicketsFallen;
+    private int extraRuns;
+    private int noOfNoBalls;
+    private int noOfWideBalls;
     private double oversBatted;
     private String battingTeamName, bowlingTeamName, inningsStatus;
 
@@ -87,8 +92,8 @@ public class InningsDTO {
         this.bowlingTeamName = bowlingTeamName;
     }
 
-    public void convertInningsToInningsDTO(Innings innings,int teamAId, int teamBId, String teamAName, String teamBName) {
-        if(innings.getBattingTeamId() == teamAId) {
+    public void convertInningsToInningsDTO(Innings innings, int teamAId, int teamBId, String teamAName, String teamBName) {
+        if (innings.getBattingTeamId() == teamAId) {
             this.battingTeamName = teamAName;
             this.bowlingTeamName = teamBName;
         } else {
@@ -97,7 +102,7 @@ public class InningsDTO {
         }
         this.inningsId = innings.getInningsId();
         this.totalScore = innings.getTotalScore();
-        this.wicketsFallen = innings.getFallOfWickets();
+        this.wicketsFallen = innings.getWicketsFallen();
         this.extraRuns = innings.getExtraRuns();
         this.noOfNoBalls = innings.getNoOfNoBalls();
         this.noOfWideBalls = innings.getNoOfWideBalls();

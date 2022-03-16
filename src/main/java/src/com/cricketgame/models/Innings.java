@@ -4,13 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Innings {
-    private int battingTeamId, bowlingTeamId, matchId, inningsId;
-    private List<List<String>> ballSummary = new ArrayList<List<String>>();
-    private int totalScore = 0, fallOfWickets = 0, extraRuns = 0, noOfWideBalls = 0, noOfNoBalls = 0;
+    private int battingTeamId;
+    private int bowlingTeamId;
+    private int matchId;
+    private int inningsId;
+    private int totalScore = 0;
+    private int wicketsFallen = 0;
+    private int extraRuns = 0;
+    private int noOfWideBalls = 0;
+    private int noOfNoBalls = 0;
     private double oversBatted = 0.0;
     private String inningsStatus;
+    private List<List<String>> ballSummary = new ArrayList<List<String>>();
     private List<WicketsHistory> wicketsFallenHistory = new ArrayList<WicketsHistory>();
 
+    public int getWicketsFallen() {
+        return wicketsFallen;
+    }
+
+    public void setWicketsFallen(int wicketsFallen) {
+        this.wicketsFallen = wicketsFallen;
+    }
 
     public String getInningsStatus() {
         return inningsStatus;
@@ -60,14 +74,6 @@ public class Innings {
         this.extraRuns = extraRuns;
     }
 
-
-    public int getFallOfWickets() {
-        return fallOfWickets;
-    }
-
-    public void setFallOfWickets(int fallOfWickets) {
-        this.fallOfWickets = fallOfWickets;
-    }
 
     public List<WicketsHistory> getWicketsFallenHistory() {
         return wicketsFallenHistory;

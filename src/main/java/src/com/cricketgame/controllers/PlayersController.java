@@ -7,28 +7,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import src.com.cricketgame.DTO.ResponseDTOs.PlayerStatsDTO;
 import src.com.cricketgame.models.Player;
-import src.com.cricketgame.repo.PlayerRepositoryImpl;
+import src.com.cricketgame.services.PlayerServiceImpl;
 
 import java.util.List;
 
 @RestController
 public class PlayersController {
+
     @Autowired
-    private PlayerRepositoryImpl playerRepositoryImpl;
+    private PlayerServiceImpl playerService;
 
     @RequestMapping("/teams/{teamId}/players")
     public List<Player> getTeamPlayers(@PathVariable int teamId) {
-        return playerRepositoryImpl.getTeamPlayers(teamId);
+        return playerService.getTeamPlayers(teamId);
     }
 
     @RequestMapping("/players/{playerId}")
     public Player getPlayer(@PathVariable int playerId) {
-        return playerRepositoryImpl.getPlayer(playerId);
+        return playerService.getPlayer(playerId);
     }
 
     @RequestMapping("/players/{matchId}/player-stats/{playerId}")
     public PlayerStatsDTO getPlayerStats(@PathVariable int playerId, @PathVariable int matchId) {
-        return playerRepositoryImpl.getPlayerStats(playerId, matchId);
+        return playerService.getPlayerStats(playerId, matchId);
     }
 
     /*@RequestMapping("/matches/{matchId}/player-stats")

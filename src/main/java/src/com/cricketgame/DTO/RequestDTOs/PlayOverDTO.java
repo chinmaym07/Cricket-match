@@ -1,7 +1,8 @@
 package src.com.cricketgame.DTO.RequestDTOs;
 
 public class PlayOverDTO {
-    private int currentBowlerId, currentBatsmanId;
+    private int currentBowlerId;
+    private int currentBatsmanId;
 
     public int getCurrentBatsmanId() {
         return currentBatsmanId;

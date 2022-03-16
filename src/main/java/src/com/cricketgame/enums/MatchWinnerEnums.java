@@ -1,6 +1,6 @@
 package src.com.cricketgame.enums;
 
-public enum MatchWinnerEnums  {
+public enum MatchWinnerEnums {
     TEAMA, TEAMB
 
 }

@@ -1,7 +1,8 @@
 package src.com.cricketgame.DTO.RequestDTOs;
 
 public class StartTossDTO {
-    private String callerName, choice;
+    private String callerName;
+    private String choice;
 
     public String getCallerName() {
         return callerName;

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import src.com.cricketgame.models.Team;
-import src.com.cricketgame.services.TeamService;
+import src.com.cricketgame.services.TeamServiceImpl;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -16,11 +16,16 @@ import java.util.List;
 public class TeamController {
 
     @Autowired
-    private TeamService teamService;
+    private TeamServiceImpl teamService;
 
     @RequestMapping("/teams")
     public List<Team> getAllTeams() throws SQLException {
         return teamService.getAllTeams();
+    }
+
+    @RequestMapping("/team")
+    public Team getAllTeams(@RequestParam String teamName) throws SQLException {
+        return teamService.getSpecificTeamByName(teamName);
     }
 
     @RequestMapping("/create-team")
@@ -33,7 +38,9 @@ public class TeamController {
         return teamService.getSpecificTeamById(teamId);
     }
 
-    public Team getSpecificTeamByName(@RequestParam(value="name") String teamName){
-        return teamService.getSpecificTeamByName(teamName);
+
+    @RequestMapping("/specific-team")
+    public int getSpecificTeamIdByName(@RequestParam(value = "name") String teamName) {
+        return teamService.getSpecificTeamIdByName(teamName);
     }
 }

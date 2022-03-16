@@ -17,7 +17,7 @@ public class Scoreboard {
             else playersDidNotBat++;
         }
         System.out.println("Extras \t\t\t\t\t" + innings.getExtraRuns() + "(nb " + innings.getNoOfNoBalls() + ", wb " + innings.getNoOfWideBalls() + ")");
-        System.out.println("Total \t\t\t\t\t" + innings.getTotalScore() + "(" + innings.getFallOfWickets() + " wckts, " + innings.getOversBatted() + " Ov.)");
+        System.out.println("Total \t\t\t\t\t" + innings.getTotalScore() + "(" + innings.getWicketsFallen() + " wckts, " + innings.getOversBatted() + " Ov.)");
         if (playersDidNotBat > 0) {
             System.out.println("Did not Bat");
             int count = 0; // checking the count as this will be used for printing comma

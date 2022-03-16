@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import src.com.cricketgame.DTO.RequestDTOs.StartTossDTO;
 import src.com.cricketgame.DTO.ResponseDTOs.TossDTO;
-import src.com.cricketgame.services.TossService;
+import src.com.cricketgame.services.TossServiceImpl;
 
 @RestController
 public class TossController {
 
     @Autowired
-    private TossService tossService;
+    private TossServiceImpl tossService;
 
     @RequestMapping(method = RequestMethod.POST, value = "/matches/{matchId}/start-toss")
     public String startToss(@PathVariable int matchId, @RequestBody StartTossDTO startTossDTO) {

@@ -1,9 +1,13 @@
 package src.com.cricketgame.models;
 
 public class WicketsHistory {
-    private String bowlerName, batsmanName;
+    private int batsmanId;
+    private int bowlerId;
+    private String bowlerName;
+    private String batsmanName;
     private double wicketsFallenInOver = 0.0;
-    private int runScored = 0, wicketsDown = 0, bowlerId, batsmanId;
+    private int runScored = 0;
+    private int wicketsDown = 0;
 
     public double getWicketsFallenInOver() {
         return wicketsFallenInOver;

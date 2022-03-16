@@ -1,12 +1,10 @@
 package src.com.cricketgame.DTO.ResponseDTOs;
 
-import src.com.cricketgame.models.Innings;
-import src.com.cricketgame.models.Toss;
-
 public class MatchSummaryDTO {
     private MatchesDTO matchesDTO;
     private TossDTO tossDTO;
-    private InningsDTO firstInningsDTO, secondInningsDTO;
+    private InningsDTO firstInningsDTO;
+    private InningsDTO secondInningsDTO;
 
     public TossDTO getTossDTO() {
         return tossDTO;

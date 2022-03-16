@@ -4,15 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import src.com.cricketgame.DTO.RequestDTOs.PlayOverDTO;
 import src.com.cricketgame.models.Innings;
-import src.com.cricketgame.services.InningsService;
+import src.com.cricketgame.services.InningsServiceImpl;
 
 @RestController
 public class InningsController {
     @Autowired
-    private InningsService inningsService;
+    private InningsServiceImpl inningsService;
 
     @RequestMapping("/matches/{matchId}/innings")
-    public Innings getInningDetails(@PathVariable int matchId, @RequestParam String inningsType) {
+    public Innings getInningsDetails(@PathVariable int matchId, @RequestParam String inningsType) {
         if (inningsType.equals("first"))
             return inningsService.getFirstInnings(matchId);
         else
@@ -31,7 +31,7 @@ public class InningsController {
     @RequestMapping(method = RequestMethod.POST, value = "/matches/{matchId}/innings/play-over")
     public String playOver(@PathVariable int matchId, @RequestParam String inningsType, @RequestBody PlayOverDTO playOverDTO) {
 
-        return inningsService.playOver(matchId, inningsType, playOverDTO.getCurrentBowlerId(), playOverDTO.getCurrentBatsmanId());
+        return inningsService.startOver(matchId, inningsType, playOverDTO.getCurrentBowlerId(), playOverDTO.getCurrentBatsmanId());
 
     }
 }

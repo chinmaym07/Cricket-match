@@ -10,8 +10,10 @@ import src.com.cricketgame.DTO.ResponseDTOs.MatchSummaryDTO;
 import src.com.cricketgame.DTO.ResponseDTOs.MatchesDTO;
 import src.com.cricketgame.DTO.ResponseDTOs.TossDTO;
 import src.com.cricketgame.enums.MatchStatus;
-import src.com.cricketgame.interfaces.MatchRepository;
-import src.com.cricketgame.models.*;
+import src.com.cricketgame.models.Innings;
+import src.com.cricketgame.models.Match;
+import src.com.cricketgame.models.Team;
+import src.com.cricketgame.models.Toss;
 
 import java.util.List;
 
@@ -22,10 +24,6 @@ public class MatchRepositoryImpl implements MatchRepository {
     @Autowired
     JdbcTemplate jdbcTemplate = new JdbcTemplate();
     public final RowMapper<MatchesDTO> matchesDTORowMapper = new BeanPropertyRowMapper<>(MatchesDTO.class);
-    public final RowMapper<MatchSummaryDTO> matchSummaryDTORowMapper = new BeanPropertyRowMapper<>(MatchSummaryDTO.class);
-    public final RowMapper<Match> matchRowMapper = new BeanPropertyRowMapper<>(Match.class);
-    public final RowMapper<Team> teamRowMapper = new BeanPropertyRowMapper<>(Team.class);
-    public final RowMapper<Player> playerRowMapper = new BeanPropertyRowMapper<>(Player.class);
 
     public int getMatchIdCount() {
         String sql = "Select count(matchId) from `Matches`";
@@ -103,15 +101,6 @@ public class MatchRepositoryImpl implements MatchRepository {
         else
             System.out.println("Match data not inserted");
         jdbcTemplate.execute(sql2);
-    }
-
-    public void updateTossDetails(Toss toss, int matchId) {
-        String sql = "insert into `Toss` (matchId, teamIdWhoWonTheToss, teamIdWhoTookTheCall, teamIdWhoWillBat, teamIdWhoWillBowl, tossOutcome, callersChoice) values (?,?,?,?,?,?,?)";
-        int status = jdbcTemplate.update(sql, matchId, toss.getTeamIdWhoWonTheToss(), toss.getTeamIdWhoTookTheCall(), toss.getTeamIdWhoWillBat(), toss.getTeamIdWhoWillBowl(), toss.getTossOutcome(), toss.getCallersChoice());
-        if (status != 0)
-            System.out.println("Toss data Updated");
-        else
-            System.out.println("Toss data not inserted");
     }
 
     public void updateMatchDetails(MatchesDTO matchesDTO) {

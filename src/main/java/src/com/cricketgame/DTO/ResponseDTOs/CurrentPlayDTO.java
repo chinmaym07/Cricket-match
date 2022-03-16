@@ -1,8 +1,12 @@
 package src.com.cricketgame.DTO.ResponseDTOs;
 
 public class CurrentPlayDTO {
-    private String currentBatsmanName, currentBowlerName, previousBowlerName;
-    private int currentBall, matchId, inningsId;
+    private String currentBatsmanName;
+    private String currentBowlerName;
+    private String previousBowlerName;
+    private int currentBall;
+    private int matchId;
+    private int inningsId;
     private double currentOver;
 
     public String getCurrentBatsmanName() {

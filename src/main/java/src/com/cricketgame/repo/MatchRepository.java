@@ -1,4 +1,4 @@
-package src.com.cricketgame.interfaces;
+package src.com.cricketgame.repo;
 
 import src.com.cricketgame.DTO.ResponseDTOs.MatchSummaryDTO;
 import src.com.cricketgame.DTO.ResponseDTOs.MatchesDTO;
@@ -16,12 +16,9 @@ public interface MatchRepository {
 
     int getMatchIdCount();
 
-
     MatchesDTO startNewMatch(Team teamA, Team teamB, int matchOvers);
 
     void storeMatchData(Match match);
-
-    void updateTossDetails(Toss toss, int matchId);
 
     void updateMatchDetails(MatchesDTO matchesDTO);
 

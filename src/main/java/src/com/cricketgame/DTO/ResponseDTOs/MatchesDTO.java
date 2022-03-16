@@ -5,8 +5,12 @@ import src.com.cricketgame.models.Innings;
 
 public class MatchesDTO {
 
-    private int teamAId, teamBId, matchId;
-    private String teamAName, teamBName, matchResult;
+    private int teamAId;
+    private int teamBId;
+    private int matchId;
+    private String teamAName;
+    private String teamBName;
+    private String matchResult;
     private int matchOvers;
     private String teamWhoWonToss;
 

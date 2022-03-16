@@ -1,11 +1,24 @@
 package src.com.cricketgame.DTO.ResponseDTOs;
 
-import java.util.HashMap;
-
 public class PlayerStatsDTO {
-    private int runsScored = 0, wicketsTaken = 0, ballsFaced = 0, runsGiven = 0, noOfNoBalls = 0, maidenOvers = 0, noOfWideBalls = 0, ballsBowled = 0, playerId, matchId;
-    private String name, role, teamName, playingStatus;
-    private double averageStrikeRate = 0.0, oversBowled = 0.0, economy = 0.0;
+    private int playerId;
+    private int matchId;
+    private int runsScored = 0;
+    private int wicketsTaken = 0;
+    private int ballsFaced = 0;
+    private int runsGiven = 0;
+    private int noOfNoBalls = 0;
+    private int maidenOvers = 0;
+    private int noOfWideBalls = 0;
+    private int ballsBowled = 0;
+
+    private String name;
+    private String role;
+    private String teamName;
+    private String playingStatus = "NOT_OUT";
+    private double averageStrikeRate = 0.0;
+    private double oversBowled = 0.0;
+    private double economy = 0.0;
     private EachRunfreqDTO eachRunFreq;
 
     public String getPlayingStatus() {

@@ -14,27 +14,10 @@ public class MatchController {
     private Match match;
 
     private void increaseRunFreq(EachRunfreqDTO eachRunfreqDTO, int ballOutcome) {
-        switch (ballOutcome) {
-            case 1:
-                eachRunfreqDTO.setOnes(eachRunfreqDTO.getOnes()+1);
-                break;
-            case 2:
-                eachRunfreqDTO.setTwos(eachRunfreqDTO.getTwos()+1);
-                break;
-            case 3:
-                eachRunfreqDTO.setThrees(eachRunfreqDTO.getThrees()+1);
-                break;
-            case 4:
-                eachRunfreqDTO.setFours(eachRunfreqDTO.getFours()+1);
-                break;
-            case 5:
-                eachRunfreqDTO.setFives(eachRunfreqDTO.getFives()+1);
-                break;
-            case 6:
-                eachRunfreqDTO.setSixes(eachRunfreqDTO.getSixes()+1);
-                break;
-        }
+        HashMap<Integer, Integer> runsFreq = eachRunfreqDTO.getEachRunFreq();
+        runsFreq.put(ballOutcome,runsFreq.get(ballOutcome) +1);
     }
+
     private Player startBowling(List<Player> battingTeamArr, List<Player> bowlingTeamArr, boolean isSecondInnings, Innings innings) {
         // This function will return the best player who scored most runs.
         Team teamA; // get Team A
@@ -49,7 +32,7 @@ public class MatchController {
         Player teamPlayerWhoScoredMostRuns = null;
         Player currentBatsman = battingTeamArr.get(indOfPlayerOnStrike);
         PlayerStats currentBatsmanStats = currentBatsman.getPlayerStats();
-        while (currentOver <= match.getMatchOvers() - 1 && innings.getFallOfWickets() < 11) {
+        while (currentOver <= match.getMatchOvers() - 1 && innings.getWicketsFallen() < 11) {
             ArrayList<String> currentOverBallSummary = new ArrayList<String>();
             wideBall = 0;
             noBall = 0;
@@ -77,13 +60,13 @@ public class MatchController {
                         break;
                     }
                 }
-                if (innings.getFallOfWickets() < 11) {
+                if (innings.getWicketsFallen() < 11) {
                     int ballOutcome = (int) (Math.random() * 10);
                     currentBatsmanStats.setBallsFaced(currentBatsmanStats.getBallsFaced() + 1); // increasing the ball count
                     // if outcome is 7 it means the batsman is out then we call the next player to bat
                     // else we will add the run scored on that ball to the player's scorecard as well as to the team's scorecard
                     if (ballOutcome == 7) {
-                        innings.setFallOfWickets(innings.getFallOfWickets() + 1);
+                        innings.setWicketsFallen(innings.getWicketsFallen() + 1);
                         WicketsHistory wc = new WicketsHistory();
                         wc.setBatsmanId(currentBatsman.getPlayerId());
                         wc.setBatsmanName(currentBatsman.getName());
@@ -98,7 +81,7 @@ public class MatchController {
                             cov = currentOver + ((currentBall + 1 - wideBall - noBall) * 0.1);
                         } else cov = currentOver + 1;
                         wc.setWicketsFallenInOver(cov); // over in which the wicket fall
-                        wc.setWicketsDown(innings.getFallOfWickets()); // number of wickets down at that instant
+                        wc.setWicketsDown(innings.getWicketsFallen()); // number of wickets down at that instant
                         wc.setRunScored(innings.getTotalScore()); // Total score at that instant when wicket fall
                         List<WicketsHistory> wicketsArr = innings.getWicketsFallenHistory();
                         wicketsArr.add(wc);
@@ -107,7 +90,7 @@ public class MatchController {
                         currentBatsmanStats.setAverageStrikeRate(((double) currentBatsmanStats.getRunsScored() * 100.0) / currentBatsmanStats.getBallsFaced()); // Calculating the current player's strikerate after each ball
                         indOfPlayerOnStrike++;
                         currentOverBallSummary.add("W");
-                        if (innings.getFallOfWickets() < 11) {
+                        if (innings.getWicketsFallen() < 11) {
                             currentBatsman = battingTeamArr.get(indOfPlayerOnStrike);
                             currentBatsmanStats = currentBatsman.getPlayerStats();
                         }
@@ -139,7 +122,7 @@ public class MatchController {
                         currentBowlerStats.setOversBowled((double) (currentBowlerStats.getBallsBowled() / 6) + ((currentBowlerStats.getBallsBowled()) % 6) * 0.1);
                         EachRunfreqDTO currentBatsmanEachRunFreq = currentBatsmanStats.getEachRunFreq();
 
-                        increaseRunFreq(currentBatsmanEachRunFreq,ballOutcome);
+                        increaseRunFreq(currentBatsmanEachRunFreq, ballOutcome);
 
 
                         currentBatsmanStats.setEachRunFreq(currentBatsmanEachRunFreq);
@@ -213,17 +196,17 @@ public class MatchController {
         if (match.getMatchWinner() == MatchWinnerEnums.TEAMB) { // Checking the Match Winner
             if (firstInnings.getBattingTeamId() == teamB.getTeamId()) {
                 System.out.println(teamB.getTeamName() + " won the match by " + (firstInnings.getTotalScore() - secondInnings.getTotalScore()) + " runs.");
-                System.out.printf(teamA.getTeamName() + " player's were not able to achieve the target of " + (firstInnings.getTotalScore() + 1) + " runs & were able to score only " + secondInnings.getTotalScore() + " at the cost of " + secondInnings.getFallOfWickets() + " wickets in %.1f overs.\n", secondInnings.getOversBatted());
+                System.out.printf(teamA.getTeamName() + " player's were not able to achieve the target of " + (firstInnings.getTotalScore() + 1) + " runs & were able to score only " + secondInnings.getTotalScore() + " at the cost of " + secondInnings.getWicketsFallen() + " wickets in %.1f overs.\n", secondInnings.getOversBatted());
             } else {
-                System.out.printf(teamB.getTeamName() + " player's were able to achieve the target of " + (firstInnings.getTotalScore() + 1) + " & scored " + secondInnings.getTotalScore() + " runs at the cost of " + secondInnings.getFallOfWickets() + " wickets in %.1f\n overs.", secondInnings.getOversBatted());
+                System.out.printf(teamB.getTeamName() + " player's were able to achieve the target of " + (firstInnings.getTotalScore() + 1) + " & scored " + secondInnings.getTotalScore() + " runs at the cost of " + secondInnings.getWicketsFallen() + " wickets in %.1f\n overs.", secondInnings.getOversBatted());
             }
             System.out.println(teamBplayer.getName() + " is choosen to be the Man of the Match as he scored " + teamBplayer.getPlayerStats().getRunsScored() + " in " + teamBplayer.getPlayerStats().getBallsFaced() + " balls.");
         } else {
             if (firstInnings.getBattingTeamId() == teamA.getTeamId()) {
                 System.out.println(teamA.getTeamName() + " won the match by " + (firstInnings.getTotalScore() - secondInnings.getTotalScore()) + " runs.");
-                System.out.printf(teamB.getTeamName() + " player's were not able to achieve the target of " + (firstInnings.getTotalScore() + 1) + " runs & were able to score only " + secondInnings.getTotalScore() + " at the cost of " + secondInnings.getFallOfWickets() + " wickets in %.1f overs.\n", secondInnings.getOversBatted());
+                System.out.printf(teamB.getTeamName() + " player's were not able to achieve the target of " + (firstInnings.getTotalScore() + 1) + " runs & were able to score only " + secondInnings.getTotalScore() + " at the cost of " + secondInnings.getWicketsFallen() + " wickets in %.1f overs.\n", secondInnings.getOversBatted());
             } else {
-                System.out.printf(teamA.getTeamName() + " player's were able to achieve the target of " + (firstInnings.getTotalScore() + 1) + " & scored " + secondInnings.getTotalScore() + " runs at the cost of " + secondInnings.getFallOfWickets() + " wickets in %.1f\n overs.", secondInnings.getOversBatted());
+                System.out.printf(teamA.getTeamName() + " player's were able to achieve the target of " + (firstInnings.getTotalScore() + 1) + " & scored " + secondInnings.getTotalScore() + " runs at the cost of " + secondInnings.getWicketsFallen() + " wickets in %.1f\n overs.", secondInnings.getOversBatted());
             }
             System.out.println(teamAplayer.getName() + " is choosen to be the Man of the Match as he scored " + teamAplayer.getPlayerStats().getRunsScored() + " in " + teamAplayer.getPlayerStats().getBallsFaced() + " balls.");
         }
@@ -265,9 +248,9 @@ public class MatchController {
 
         System.out.println("**********************************************************************************************************************************************");
         if (firstInnings.getBattingTeamId() == teamA.getTeamId()) {
-            System.out.println(teamA.getTeamName() + " player's were able to set the target of " + firstInnings.getTotalScore() + " runs at the cost of " + firstInnings.getFallOfWickets() + " wickets in " + firstInnings.getOversBatted() + " overs.\nLet's see whether " + teamB.getTeamName() + " will be able to achieve that target in " + match.getMatchOvers() + " overs.");
+            System.out.println(teamA.getTeamName() + " player's were able to set the target of " + firstInnings.getTotalScore() + " runs at the cost of " + firstInnings.getWicketsFallen() + " wickets in " + firstInnings.getOversBatted() + " overs.\nLet's see whether " + teamB.getTeamName() + " will be able to achieve that target in " + match.getMatchOvers() + " overs.");
         } else {
-            System.out.println(teamB.getTeamName() + " player's were able to set the target of " + firstInnings.getTotalScore() + " runs at the cost of " + firstInnings.getFallOfWickets() + " wickets in " + firstInnings.getOversBatted() + " overs.\nLet's see whether " + teamA.getTeamName() + " will be able to achieve that target in " + match.getMatchOvers() + " overs.");
+            System.out.println(teamB.getTeamName() + " player's were able to set the target of " + firstInnings.getTotalScore() + " runs at the cost of " + firstInnings.getWicketsFallen() + " wickets in " + firstInnings.getOversBatted() + " overs.\nLet's see whether " + teamA.getTeamName() + " will be able to achieve that target in " + match.getMatchOvers() + " overs.");
         }
         System.out.println("**********************************************************************************************************************************************");
         if (firstInnings.getBowlingTeamId() == teamA.getTeamId()) {

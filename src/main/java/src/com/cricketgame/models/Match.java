@@ -6,9 +6,11 @@ public class Match {
     private Team teamB = new Team();
     private Toss toss;
     private int matchOvers;
-    private Player teamABestPlayer, teamBBestPlayer;
+    private Player teamABestPlayer;
+    private Player teamBBestPlayer;
     private Enum matchWinner;
-    private Innings firstInnings, secondInnings;
+    private Innings firstInnings;
+    private Innings secondInnings;
     private String teamNameWhoWonToss;
     private Enum matchStatus;
 

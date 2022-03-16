@@ -1,7 +1,14 @@
 package src.com.cricketgame.models;
 
 public class CurrentPlay {
-    private int currentBatsmanId, currentBowlerId, currentBall, previousBowlerId, matchId, inningsId;
+    private int matchId;
+    private int inningsId;
+
+    private int currentBatsmanId;
+    private int currentBowlerId;
+    private int currentBall;
+    private int previousBowlerId;
+
     private double currentOver;
 
     public int getCurrentBatsmanId() {
