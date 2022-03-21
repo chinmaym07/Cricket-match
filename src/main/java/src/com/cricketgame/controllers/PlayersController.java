@@ -1,9 +1,10 @@
 package src.com.cricketgame.controllers;
 
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import src.com.cricketgame.DTO.ResponseDTOs.PlayerStatsDTO;
 import src.com.cricketgame.models.Player;
@@ -17,17 +18,20 @@ public class PlayersController {
     @Autowired
     private PlayerServiceImpl playerService;
 
-    @RequestMapping("/teams/{teamId}/players")
+    @GetMapping("/teams/{teamId}/players")
+    @ApiOperation(value = "Get all players for a team")
     public List<Player> getTeamPlayers(@PathVariable int teamId) {
         return playerService.getTeamPlayers(teamId);
     }
 
-    @RequestMapping("/players/{playerId}")
+    @GetMapping("/players/{playerId}")
+    @ApiOperation(value = "Get Player Info")
     public Player getPlayer(@PathVariable int playerId) {
         return playerService.getPlayer(playerId);
     }
 
-    @RequestMapping("/players/{matchId}/player-stats/{playerId}")
+    @GetMapping("/players/{matchId}/player-stats/{playerId}")
+    @ApiOperation(value = "Get Player stats for a particular match")
     public PlayerStatsDTO getPlayerStats(@PathVariable int playerId, @PathVariable int matchId) {
         return playerService.getPlayerStats(playerId, matchId);
     }
