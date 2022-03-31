@@ -14,8 +14,6 @@ public class BallSummaryRepositoryImpl implements BallSummaryRepository {
     @Autowired
     JdbcTemplate jdbcTemplate = new JdbcTemplate();
 
-    private final RowMapper<String> rowMapper = new BeanPropertyRowMapper<>(String.class);
-
     public void insertBallSummary(int matchId, int inningsId, BallSummary ballSummary) {
         String sql = "Insert into `Ballsummary` (inningsId, matchId, outcomeOnBall, currentOver) values ( ?, ?, ?, ? )";
         int status = jdbcTemplate.update(sql, inningsId, matchId, ballSummary.getOutcomeOnBall(), ballSummary.getCurrentOver());
@@ -27,6 +25,6 @@ public class BallSummaryRepositoryImpl implements BallSummaryRepository {
 
     public List<String> getBallSummaryForInnings(int matchId, int inningsId, int currentOver) {
         String sql = "Select outcomeOnBall from `Ballsummary` where matchId = ? and inningsId = ? and currentOver = ?";
-        return jdbcTemplate.query(sql, rowMapper, matchId, inningsId, currentOver);
+        return  jdbcTemplate.queryForList(sql, String.class, matchId, inningsId, currentOver);
     }
 }

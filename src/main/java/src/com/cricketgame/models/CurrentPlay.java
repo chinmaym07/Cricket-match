@@ -17,6 +17,8 @@ public class CurrentPlay {
     private int previousBowlerId;
     @ApiModelProperty(notes = "Current Over", name = "currentOver", required = true)
     private double currentOver;
+    @ApiModelProperty(notes = "Runs in Current Over", name = "runsInCurrentOver", required = true)
+    private int runsInCurrentOver = 0;
 
     public int getCurrentBatsmanId() {
         return currentBatsmanId;
@@ -72,5 +74,13 @@ public class CurrentPlay {
 
     public void setCurrentOver(double currentOver) {
         this.currentOver = currentOver;
+    }
+
+    public int getRunsInCurrentOver() {
+        return runsInCurrentOver;
+    }
+
+    public void setRunsInCurrentOver(int runsInCurrentOver) {
+        this.runsInCurrentOver = runsInCurrentOver;
     }
 }

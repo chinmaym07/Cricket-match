@@ -11,6 +11,7 @@ import src.com.cricketgame.models.Player;
 import src.com.cricketgame.models.WicketsHistory;
 import src.com.cricketgame.repo.*;
 import src.com.cricketgame.utils.BallSummary;
+import src.com.cricketgame.utils.InningsUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -104,7 +105,12 @@ public class InningsServiceImpl implements InningsService {
     public void findWinner(int matchId, MatchesDTO matchesDTO) {
         Innings firstInnings = getFirstInnings(matchId);
         Innings secondInnings = getSecondInnings(matchId);
+        System.out.println("First Innings Total Score: "+ firstInnings.getTotalScore());
+        System.out.println("Second Innings Total Score: "+ secondInnings.getTotalScore());
+        System.out.println("First Innings Status: "+ firstInnings.getInningsStatus());
+        System.out.println("Second Innings Status: "+ secondInnings.getInningsStatus());
         if (firstInnings.getInningsStatus().equals("COMPLETED") && secondInnings.getInningsStatus().equals("COMPLETED")) {
+
             if (secondInnings.getTotalScore() > firstInnings.getTotalScore()) {
                 matchesDTO.setTeamIdWhoWonTheMatch(secondInnings.getBattingTeamId());
             } else {
@@ -169,24 +175,27 @@ public class InningsServiceImpl implements InningsService {
 
 
         String resp = playOver(matchesDTO, innings, batsmanPlayerStatsDTO, bowlerPlayerStatsDTO, currentPlay, inningsType.equals("second"));
-
+        // InningsUtils.inningsStats(innings);
+        int inningsRepoUpdated = 0;
         if (inningsType.equals("first")) {
             if (currentPlay.getCurrentOver() == matchesDTO.getMatchOvers()) {
                 innings.setInningsStatus("COMPLETED");
-                inningsRepository.updateInningsStats(matchId, innings);
                 resp = "Innings Completed!!";
             }
         } else {
-            if (innings.getInningsStatus().equals("COMPLETED")) {
+            if (innings.getInningsStatus().equals("COMPLETED") || currentPlay.getCurrentOver() == matchesDTO.getMatchOvers()) {
                 matchesDTO.setMatchStatus("COMPLETED");
                 resp = "Innings Completed!!";
+                inningsRepoUpdated = 1;
                 inningsRepository.updateInningsStats(matchId, innings);
                 findWinner(matchId, matchesDTO);
                 matchRepository.updateMatchDetails(matchesDTO);
                 resp += "\nMatch Over!!";
             }
-        }
 
+        }
+        if(inningsRepoUpdated != 1)
+            inningsRepository.updateInningsStats(matchId, innings);
         currentPlayRepository.updateCurrentPlay(innings.getMatchId(), innings.getInningsId(), currentPlay);
         if (batsmanStatsDoesNotExist == 1)
             playerStatsRepository.insertPlayerStats(matchId, batsmanPlayerStatsDTO);
@@ -213,7 +222,7 @@ public class InningsServiceImpl implements InningsService {
         boolean inningsCompleted = false;
         double currentOver = currentPlay.getCurrentOver();
         int currentBall = currentPlay.getCurrentBall() + 1;
-        int runsInCurrentOver = 0, wideBall = 0, noBall = 0;
+        int runsInCurrentOver = currentPlay.getRunsInCurrentOver(), wideBall = 0, noBall = 0;
         for (; currentBall <= 6 + wideBall + noBall; currentBall++) {
 
             BallSummary ballSummary = new BallSummary();
@@ -233,7 +242,7 @@ public class InningsServiceImpl implements InningsService {
                     wc.setBowlerName(bowlerStats.getName()); // set the bowler name who took the wicket
                     bowlerStats.setWicketsTaken(bowlerStats.getWicketsTaken() + 1);
                     bowlerStats.setBallsBowled(bowlerStats.getBallsBowled() + 1);
-                    bowlerStats.setEconomy(((double) bowlerStats.getRunsGiven()) / bowlerStats.getBallsBowled());
+                    bowlerStats.setEconomy(round((double) bowlerStats.getRunsGiven() / bowlerStats.getOversBowled(),2));
                     bowlerStats.setOversBowled((double) (bowlerStats.getBallsBowled() / 6) + ((bowlerStats.getBallsBowled()) % 6) * 0.1);
                     double cov = 0.0;// get current over
                     if (currentBall - wideBall - noBall <= 5) {
@@ -247,7 +256,7 @@ public class InningsServiceImpl implements InningsService {
                     wc.setRunScored(innings.getTotalScore()); // Total score at that instant when wicket fall
                     innings.setOversBatted(cov);
                     batsmanStats.setPlayingStatus("OUT");
-                    batsmanStats.setAverageStrikeRate(((double) batsmanStats.getRunsScored() * 100.0) / batsmanStats.getBallsFaced()); // Calculating the current player's strikerate after each ball
+                    batsmanStats.setAverageStrikeRate(round((double) batsmanStats.getRunsScored() * 100.0 / batsmanStats.getBallsFaced(),2)); // Calculating the current player's strikerate after each ball
                     ballSummary.setOutcomeOnBall("W");
 
                     // Updating Ball Summary
@@ -326,7 +335,7 @@ public class InningsServiceImpl implements InningsService {
                     ballSummary.setOutcomeOnBall(Integer.toString(ballOutcome));
                 }
                 ballSummaryRepository.insertBallSummary(matchesDTO.getMatchId(), innings.getInningsId(), ballSummary);
-                bowlerStats.setEconomy(round((double) bowlerStats.getRunsGiven() / bowlerStats.getBallsBowled(), 3));
+                bowlerStats.setEconomy(round((double) bowlerStats.getRunsGiven() / bowlerStats.getOversBowled(),2));
                 batsmanStats.setAverageStrikeRate(round(((double) batsmanStats.getRunsScored() * 100.0) / batsmanStats.getBallsFaced(), 2)); // Calculating the current player's strikerate after each ball
                 if (currentBall - wideBall - noBall == 6)
                     currentPlay.setCurrentBall(0);

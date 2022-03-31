@@ -112,10 +112,12 @@ public class MatchServiceImpl implements MatchService {
     public List<PlayerStatsDTO> getTeamStats(int matchId, String teamName) {
         MatchesDTO matchesDTO = getMatchDetails(matchId);
         int teamIdWhoseStatsToFetch;
-        if (matchesDTO.getTeamAName() == teamName)
+        if (matchesDTO.getTeamAName().equals(teamName))
             teamIdWhoseStatsToFetch = matchesDTO.getTeamAId();
-        else
+        else if (matchesDTO.getTeamBName().equals(teamName))
             teamIdWhoseStatsToFetch = matchesDTO.getTeamBId();
+        else
+            return new ArrayList<PlayerStatsDTO>();
         List<Player> playersList = playerRepository.getTeamPlayers(teamIdWhoseStatsToFetch);
         List<PlayerStatsDTO> playerStatsDTOList = new ArrayList<>();
         for (Player player : playersList) {
