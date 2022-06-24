@@ -1,0 +1,565 @@
+{
+	"info": {
+		"_postman_id": "ebba4218-4150-4c1a-8d13-41cab64ae4fa",
+		"name": "Cricket Game Apis",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get All Teams",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/teams",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"teams"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Team By Name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/team?teamName=India",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"team"
+					],
+					"query": [
+						{
+							"key": "teamName",
+							"value": "India"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Specific team ID By Name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/specific-team?name=India",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"specific-team"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "India"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Matches",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/matches",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"matches"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Specific Team",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/teams/3",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"teams",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Team Players for team 1",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/teams/3/players",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"teams",
+						"3",
+						"players"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Team Players for team 2",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/teams/5/players",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"teams",
+						"5",
+						"players"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Matches for a Team",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/teams/1/matches",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"teams",
+						"1",
+						"matches"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Match Details",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/matches/9",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"matches",
+						"9"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Individial Player",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/players/5",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"players",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Match Summary",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/matches/9/match-summary",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"matches",
+						"9",
+						"match-summary"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Toss Details for a Match",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/matches/7/toss-details",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"matches",
+						"7",
+						"toss-details"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Individial Player Stats for a Particular Match",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/players/7/player-stats/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"players",
+						"7",
+						"player-stats",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Player Stats for a Particular Match (Team stats)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/matches/7/team-stats?teamName=India",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"matches",
+						"7",
+						"team-stats"
+					],
+					"query": [
+						{
+							"key": "teamName",
+							"value": "India"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get First Innings detail for a match",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/matches/9/innings?inningsType=first",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"matches",
+						"9",
+						"innings"
+					],
+					"query": [
+						{
+							"key": "inningsType",
+							"value": "first"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Second Innings detail for a match",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/matches/9/innings?inningsType=Second",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"matches",
+						"9",
+						"innings"
+					],
+					"query": [
+						{
+							"key": "inningsType",
+							"value": "Second"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Start new match",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"teamAName\": \"Bangladesh\",\n    \"teamBName\": \"Pakistan\",\n    \"matchOvers\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/matches/start-new-match",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"matches",
+						"start-new-match"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Start Toss",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"callerName\": \"Bangladesh\",\n    \"choice\": \"Head\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/matches/9/start-toss",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"matches",
+						"9",
+						"start-toss"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Make Choice b/w Bat or Bowl",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "Bat"
+				},
+				"url": {
+					"raw": "localhost:8080/matches/9/make-choice",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"matches",
+						"9",
+						"make-choice"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Start First Innings",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/matches/9/innings/start-innings?inningsType=first",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"matches",
+						"9",
+						"innings",
+						"start-innings"
+					],
+					"query": [
+						{
+							"key": "inningsType",
+							"value": "first"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Start Second Innings",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/matches/9/innings/start-innings?inningsType=second",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"matches",
+						"9",
+						"innings",
+						"start-innings"
+					],
+					"query": [
+						{
+							"key": "inningsType",
+							"value": "second"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Start Over for First Innings",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"currentBowlerId\": 43,\n    \"currentBatsmanId\": 57\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/matches/9/innings/play-over?inningsType=first",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"matches",
+						"9",
+						"innings",
+						"play-over"
+					],
+					"query": [
+						{
+							"key": "inningsType",
+							"value": "first"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Start Over for Second Innings",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"currentBowlerId\": 66,\n    \"currentBatsmanId\": 35\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/matches/9/innings/play-over?inningsType=second",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"matches",
+						"9",
+						"innings",
+						"play-over"
+					],
+					"query": [
+						{
+							"key": "inningsType",
+							"value": "second"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
