@@ -2,24 +2,21 @@
 
 ### Class Diagram
 
-I have created 7 necessary classes
-- Player
-- Team
-- Match
-- MatchController
-- Innings
-- Toss
-- WicketHistory
-- Scoreboard
 
-I have created a class `MatchTest` in `com.cricketgame.test` package for testing.
+![Cricket Game Class Diagram](images/Cricket%20Game%20Class%20Diagram-week4-updated.jpeg)
 
-![Cricket Game Class Diagram](images/Cricket%20Game%20Class%20Diagram-week2-updated.jpeg)
+### Database Schema
+![Cricket Game Database Schema](images/Cricket%20Game%20Database%20Diagram%20week4-updated.png)
 
 ### Sample Output
 
 I have taken input from user like Team names, Match Overs, Toss Choice.
 
-![Sample Run Week2 _part-1](images/Sample%20Run-week-2-updated-1.png)
+![Sample Run Week3 _part-1](images/Sample%20Run-week-3-2.png)
 
-![Sample Run Week2 _part-2](images/Sample%20Run-week-2-updated-2.png)
+![Sample Run Week3 _part-2](images/Sample%20Run-week-3-1.png)
+
+![Sample Run Week3 _part-3](images/Sample%20Run-week-3-3.png)
+
+![Sample Run Week3 _part-4](images/Sample%20Run-week-3-4.png)
+
